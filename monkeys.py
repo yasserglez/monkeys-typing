@@ -14,24 +14,27 @@ INDEX_MAP = ''.join(sorted(set(INPUT_CHAR_MAP.values() + ['@'])))
 CHAR_MAP = {c: i for i, c in enumerate(INDEX_MAP)}
 NUM_CHARS = len(INDEX_MAP)
 
-# char2index uses INPUT_CHAR_MAP to map any input char into the typewriter chars
-# (if a char is not found in INPUT_CHAR_MAP it is mapped to @), and then uses
-# CHAR_MAP to obtain the corresponding integer (see index2char).
-char2index = lambda c: CHAR_MAP[INPUT_CHAR_MAP.get(c.lower(), '@')]
+# Use INPUT_CHAR_MAP to map any input char into the NUM_CHARS typewriter chars
+# (if a char is not found in INPUT_CHAR_MAP it is mapped to @).
+translate_input_char = lambda c: INPUT_CHAR_MAP.get(c.lower(), '@')
 
-# index2char assigns consecutive integers to every typewriter char (ASCII order).
-index2char = lambda i: INDEX_MAP[i]
+# Assign consecutive integers to every typewriter char (ASCII order).
+char_to_index = lambda c: CHAR_MAP[c]
+
+# The inverse of char_to_index.
+index_to_char = lambda i: INDEX_MAP[i]
 
 
 def compute_freq_tab(order, *corpus_files):
-    # This assumes that the files in 'corpus_files' fit in main memory 
+    # This assumes that the files in corpus_files fit in main memory 
     # one at a time -- which makes sense for the assignment.
     freq_tab = _freq_tab_init(order)
     for corpus_file in corpus_files:
         with open(corpus_file, 'r') as fd:
             text = fd.read()
-            for ngram in izip(*[islice(text, i, None) for i in xrange(order)]):
-                _freq_tab_inc(freq_tab, map(char2index, ngram))
+            for input_ngram in izip(*[islice(text, i, None) for i in xrange(order)]):
+                typewriter_ngram = map(translate_input_char, input_ngram)
+                _freq_tab_inc(freq_tab, map(char_to_index, typewriter_ngram))
     return freq_tab
 
 
@@ -42,7 +45,7 @@ def write_freq_tab(freq_tab, output_file):
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram = ''.join(map(index2char, ngram_index))
+            ngram = ''.join(map(index_to_char, ngram_index))
             nonzero_ngrams[ngram] = ngram_freq
     with open(output_file, 'w') as fd:
         dump(nonzero_ngrams, fd)
@@ -55,7 +58,7 @@ def read_freq_tab(input_file):
     order = len(nonzero_ngrams.iterkeys().next())
     freq_tab = _freq_tab_init(order)
     for ngram, ngram_freq in nonzero_ngrams.iteritems():
-        _freq_tab_set(freq_tab, map(char2index, ngram), ngram_freq)
+        _freq_tab_set(freq_tab, map(char_to_index, ngram), ngram_freq)
     return freq_tab
 
 
@@ -77,7 +80,6 @@ def create_profile(order, freq_tab, profile_len):
 
 def profile_dissimilarity(profile1, profile2):
     pass
-
 
 
 def _freq_tab_init(order, value=0):
