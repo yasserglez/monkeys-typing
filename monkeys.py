@@ -1,6 +1,6 @@
 
 from copy import deepcopy
-from itertools import imap, islice, izip, product
+from itertools import islice, izip, product
 from json import dump, load
 
 
@@ -31,7 +31,7 @@ def compute_freq_tab(order, *corpus_files):
         with open(corpus_file, 'r') as fd:
             text = fd.read()
             for ngram in izip(*[islice(text, i, None) for i in xrange(order)]):
-                _freq_tab_inc(freq_tab, order, imap(char2index, ngram))
+                _freq_tab_inc(freq_tab, map(char2index, ngram))
     return freq_tab
 
 
@@ -40,16 +40,23 @@ def write_freq_tab(freq_tab, output_file):
     nonzero_ngrams = {}
     order = _freq_tab_order(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
-        ngram_freq = _freq_tab_get(freq_tab, order, ngram_index)
+        ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram = ''.join(imap(index2char, ngram_index))
+            ngram = ''.join(map(index2char, ngram_index))
             nonzero_ngrams[ngram] = ngram_freq
     with open(output_file, 'w') as fd:
         dump(nonzero_ngrams, fd)
 
 
 def read_freq_tab(input_file):
-    pass
+    # Build the freq. table from the ngram freqs. in a JSON file.
+    with open(input_file, 'r') as fd:
+        nonzero_ngrams = load(fd)
+    order = len(nonzero_ngrams.iterkeys().next())
+    freq_tab = _freq_tab_init(order)
+    for ngram, ngram_freq in nonzero_ngrams.iteritems():
+        _freq_tab_set(freq_tab, map(char2index, ngram), ngram_freq)
+    return freq_tab
 
 
 def most_probable_digraph(freq_tab, initial_char):
@@ -91,28 +98,28 @@ def _freq_tab_order(freq_tab):
     return order     
 
 
-def _freq_tab_get(freq_tab, order, ngram_index):
+def _freq_tab_get(freq_tab, ngram_index):
     tab_ref = freq_tab
     for n, i in enumerate(ngram_index):
-        if n == order - 1:
+        if n == len(ngram_index) - 1:
             return tab_ref[i]
         else:
             tab_ref = tab_ref[i]
 
 
-def _freq_tab_set(freq_tab, order, ngram_index, value):
+def _freq_tab_set(freq_tab, ngram_index, value):
     tab_ref = freq_tab
     for n, i in enumerate(ngram_index):
-        if n == order - 1:
+        if n == len(ngram_index) - 1:
             tab_ref[i] = value
         else:
             tab_ref = tab_ref[i]
 
 
-def _freq_tab_inc(freq_tab, order, ngram_index):
+def _freq_tab_inc(freq_tab, ngram_index):
     tab_ref = freq_tab
     for n, i in enumerate(ngram_index):
-        if n == order - 1:
+        if n == len(ngram_index) - 1:
             tab_ref[i] += 1
         else:
             tab_ref = tab_ref[i]
