@@ -1,14 +1,12 @@
 
-# Given that char2index and index2char are used everywhere, I tried to 
-# make them reasonably efficient -- that's why this might look cryptic.
-
 LETTERS = {l:l for l in 'abcdefghijklmnopqrstuvwxyz'}
 DIGITS = {d:'#' for d in '0123456789'}
-PUNCTS = {p:p for p in ' ,.;:?!()-\'"'}
-CHAR_MAP = dict(LETTERS.items() + DIGITS.items() + PUNCTS.items())
-del LETTERS, DIGITS, PUNCTS
+PUNCT_MARKS = {p:p for p in ' ,.;:?!()-\'"'}
+CHAR_MAP = dict(LETTERS.items() + DIGITS.items() + PUNCT_MARKS.items())
+del LETTERS, DIGITS, PUNCT_MARKS
 
 VALID_CHARS = ''.join(sorted(set(CHAR_MAP.values() + ['@'])))
+NUM_VALID_CHARS = len(VALID_CHARS)
 AT_INDEX = VALID_CHARS.index('@')
 
 # char2index uses CHAR_MAP to map any input char into the typewriter chars
@@ -19,7 +17,7 @@ char2index = lambda c: CHAR_MAP.get(c.lower(), AT_INDEX)
 index2char = lambda i: VALID_CHARS[i]
 
 
-def compute_freq_tab(order, *corpus_file):
+def compute_freq_tab(order, *corpus_files):
     pass
 
 
