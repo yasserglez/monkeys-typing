@@ -1,4 +1,7 @@
-import copy
+
+from copy import deepcopy
+from itertools import imap, islice, izip, product
+from json import dump, load
 
 
 LETTERS = {l: l for l in 'abcdefghijklmnopqrstuvwxyz'}
@@ -21,26 +24,28 @@ index2char = lambda i: INDEX_MAP[i]
 
 
 def compute_freq_tab(order, *corpus_files):
-    # WARNING: This assumes that the files in 'corpus_files' fit in main memory 
+    # This assumes that the files in 'corpus_files' fit in main memory 
     # one at a time -- which makes sense for the assignment.
-    freq_tab = _init_freq_tab(order)
+    freq_tab = _freq_tab_init(order)
     for corpus_file in corpus_files:
         with open(corpus_file, 'r') as fd:
             text = fd.read()
-            for i in xrange(len(text) - order + 1):
-                chars = text[i:i + order]
-                tab_ref = freq_tab
-                for k, char in enumerate(chars):
-                    index = char2index(char)
-                    if k == order - 1:
-                        tab_ref[index] += 1
-                    else:
-                        tab_ref = tab_ref[index]
+            for ngram in izip(*[islice(text, i, None) for i in xrange(order)]):
+                _freq_tab_inc(freq_tab, order, imap(char2index, ngram))
     return freq_tab
 
 
-def write_freq_tab(order, freq_tab, output_file):
-    pass
+def write_freq_tab(freq_tab, output_file):
+    # Export the ngrams with non-zero freqs. to a JSON file.
+    nonzero_ngrams = {}
+    order = _freq_tab_order(freq_tab)
+    for ngram_index in product(xrange(NUM_CHARS), repeat=order):
+        ngram_freq = _freq_tab_get(freq_tab, order, ngram_index)
+        if ngram_freq > 0:
+            ngram = ''.join(imap(index2char, ngram_index))
+            nonzero_ngrams[ngram] = ngram_freq
+    with open(output_file, 'w') as fd:
+        dump(nonzero_ngrams, fd)
 
 
 def read_freq_tab(input_file):
@@ -67,11 +72,47 @@ def profile_dissimilarity(profile1, profile2):
     pass
 
 
-# Initialize a freq. table with all counts set to 'value'.
-def _init_freq_tab(order, value=0):
-    prev_tab = [value] * NUM_CHARS
+
+def _freq_tab_init(order, value=0):
+    freq_tab = [value] * NUM_CHARS
     for n in xrange(1, order):
-        tab = [prev_tab]
-        tab += [copy.deepcopy(prev_tab) for i in xrange(NUM_CHARS - 1)] 
-        prev_tab = tab
-    return prev_tab
+        tmp = [freq_tab]
+        tmp += [deepcopy(freq_tab) for i in xrange(NUM_CHARS - 1)] 
+        freq_tab = tmp
+    return freq_tab
+
+
+def _freq_tab_order(freq_tab):
+    order = 0
+    tab_ref = freq_tab
+    while isinstance(tab_ref, list):
+        tab_ref = tab_ref[0]
+        order += 1
+    return order     
+
+
+def _freq_tab_get(freq_tab, order, ngram_index):
+    tab_ref = freq_tab
+    for n, i in enumerate(ngram_index):
+        if n == order - 1:
+            return tab_ref[i]
+        else:
+            tab_ref = tab_ref[i]
+
+
+def _freq_tab_set(freq_tab, order, ngram_index, value):
+    tab_ref = freq_tab
+    for n, i in enumerate(ngram_index):
+        if n == order - 1:
+            tab_ref[i] = value
+        else:
+            tab_ref = tab_ref[i]
+
+
+def _freq_tab_inc(freq_tab, order, ngram_index):
+    tab_ref = freq_tab
+    for n, i in enumerate(ngram_index):
+        if n == order - 1:
+            tab_ref[i] += 1
+        else:
+            tab_ref = tab_ref[i]
