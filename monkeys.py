@@ -1,7 +1,10 @@
 
+from bisect import bisect_left
 from copy import deepcopy
+from collections import deque
 from itertools import islice, izip, product
 from json import dump, load
+from random import randint
 
 
 # Build a map of input chars to typewriter chars.
@@ -31,7 +34,7 @@ index_to_char = lambda i: INDEX_MAP[i]
 
 # This assumes that the files in corpus_files fit in main memory 
 # one at a time -- which makes sense for the assignment.
-def compute_freq_tab(order, *corpus_files):
+def freq_tab_creation(order, *corpus_files):
     freq_tab = _freq_tab_init(order)
     for corpus_file in corpus_files:
         fd = open(corpus_file, 'r')
@@ -43,8 +46,19 @@ def compute_freq_tab(order, *corpus_files):
     return freq_tab
 
 
+# Reduce the resolution of the typewriter -- i.e. reduce the freqs in the 
+# table by the ratio given in factor. The original freq table is modified!
+def freq_tab_resolution(freq_tab, factor):
+    order = _freq_tab_order(freq_tab)
+    for ngram_index in product(xrange(NUM_CHARS), repeat=order):
+        ngram_freq = _freq_tab_get(freq_tab, ngram_index)
+        if ngram_freq > 0:
+            ngram_freq = int(factor * ngram_freq)
+            _freq_tab_set(freq_tab, ngram_index, ngram_freq)
+
+
 # Export all the ngrams with non-zero freqs to a JSON file.
-def write_freq_tab(freq_tab, output_file):
+def freq_tab_write(freq_tab, output_file):
     nonzero_ngrams = {}
     order = _freq_tab_order(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
@@ -57,10 +71,11 @@ def write_freq_tab(freq_tab, output_file):
     fd.close()
 
 
-# Build the freq table from the ngram freqs in a JSON file.
-def read_freq_tab(input_file):
-    with open(input_file, 'r') as fd:
-        nonzero_ngrams = load(fd)
+# Read the freq table from the ngram freqs in a JSON file.
+def freq_tab_read(input_file):
+    fd = open(input_file, 'r')
+    nonzero_ngrams = load(fd)
+    fd.close()
     order = len(nonzero_ngrams.iterkeys().next())
     freq_tab = _freq_tab_init(order)
     for ngram, ngram_freq in nonzero_ngrams.iteritems():
@@ -68,11 +83,31 @@ def read_freq_tab(input_file):
     return freq_tab
 
 
+# Sample num_chars chars from the freq table and save them to output_file.
+# Set freq_tab to None for the straightforward monkey problem.
+def freq_tab_simulation(freq_tab, num_chars, output_file):
+    order = _freq_tab_order(freq_tab)
+    ngram_prefix = deque()
+    fd = open(output_file, 'w')
+    for i in xrange(num_chars):
+        if order == 0:
+            # The straightforward monkey problem (sampled uniformly).
+            char_index = randint(0, NUM_CHARS - 1)
+        else:
+            if len(ngram_prefix) < order - 1:
+                # The first (order - 1) chars are sampled uniformly.
+                char_index = randint(0, NUM_CHARS - 1)
+                ngram_prefix.append(char_index)
+            else:
+                # Sample according to the freq table.
+                char_index = _freq_tab_sample(freq_tab, ngram_prefix)
+                ngram_prefix.append(char_index)
+                ngram_prefix.popleft()
+        fd.write(index_to_char(char_index))
+    fd.close()
+
+
 def most_probable_digraph(freq_tab, initial_char):
-    pass
-
-
-def simulate(order, freq_tab, resolution, num_chars, output_file):
     pass
 
 
@@ -119,11 +154,11 @@ def _freq_tab_get(freq_tab, ngram_index):
 
 
 # Update the freq of an n-gram given the (ordered) indexes of its chars.
-def _freq_tab_set(freq_tab, ngram_index, value):
+def _freq_tab_set(freq_tab, ngram_index, ngram_freq):
     tab_ref = freq_tab
     for n, i in enumerate(ngram_index):
         if n == len(ngram_index) - 1:
-            tab_ref[i] = value
+            tab_ref[i] = ngram_freq
         else:
             tab_ref = tab_ref[i]
 
@@ -136,3 +171,18 @@ def _freq_tab_inc(freq_tab, ngram_index):
             tab_ref[i] += 1
         else:
             tab_ref = tab_ref[i]
+
+
+# Sample a char from the freq table given the (order - 1) chars in the n-gram prefix.
+def _freq_tab_sample(freq_tab, ngram_prefix):
+    # Compute the cumulative values of the freq distribution.
+    cumul_sum, cumul_freqs = 0, []
+    tab_ref = freq_tab
+    for i in ngram_prefix:
+        tab_ref = tab_ref[i]
+    for i in xrange(NUM_CHARS):
+        cumul_sum += tab_ref[i]
+        cumul_freqs.append(cumul_sum)
+    char_index = (randint(0, NUM_CHARS - 1) if cumul_sum == 0 else
+                  bisect_left(cumul_freqs, randint(0, cumul_sum)))
+    return char_index
