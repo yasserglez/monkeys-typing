@@ -83,6 +83,10 @@ def freq_tab_read(input_file):
     return freq_tab
 
 
+def freq_tab_most_probable_path(freq_tab, ngram_prefix, max_chars):
+    pass
+
+
 # Sample num_chars chars from the freq table and save them to output_file.
 # Set freq_tab to None for the straightforward monkey problem.
 def freq_tab_simulation(freq_tab, num_chars, output_file):
@@ -107,15 +111,11 @@ def freq_tab_simulation(freq_tab, num_chars, output_file):
     fd.close()
 
 
-def most_probable_digraph(freq_tab, initial_char):
+def relative_word_yield(simulated_file, corpus_file):
     pass
 
 
-def relative_word_yield(sim_file, corpus_file):
-    pass
-
-
-def create_profile(order, freq_tab, profile_len):
+def profile_creation(freq_tab, profile_len):
     pass
 
 
