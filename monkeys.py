@@ -5,14 +5,14 @@ from collections import deque
 from itertools import islice, izip, product
 from json import dump, load
 from random import randint
+from re import split
 
 
 # Build a map of input chars to typewriter chars.
 LETTERS = {l: l for l in 'abcdefghijklmnopqrstuvwxyz'}
 DIGITS = {d: '#' for d in '0123456789'}
-PUNCT_MARKS = {p: p for p in ' ,.;:?!()-\'"'}
-INPUT_CHAR_MAP = dict(LETTERS.items() + DIGITS.items() + PUNCT_MARKS.items())
-del LETTERS, DIGITS, PUNCT_MARKS
+PUNCTUATION = {p: p for p in ' ,.;:?!()-\'"'}
+INPUT_CHAR_MAP = dict(LETTERS.items() + DIGITS.items() + PUNCTUATION.items())
 
 # Build maps of typewriter chars to integers and vice versa.
 INDEX_MAP = ''.join(sorted(set(INPUT_CHAR_MAP.values() + ['@'])))
@@ -36,13 +36,15 @@ index_to_char = lambda i: INDEX_MAP[i]
 # one at a time -- which makes sense for the assignment.
 def freq_tab_creation(order, *corpus_files):
     freq_tab = _freq_tab_init(order)
-    for corpus_file in corpus_files:
-        fd = open(corpus_file, 'r')
-        text = fd.read()
-        for input_ngram in izip(*[islice(text, i, None) for i in xrange(order)]):
-            typewriter_ngram = map(translate_input_char, input_ngram)
-            _freq_tab_inc(freq_tab, map(char_to_index, typewriter_ngram))
-        fd.close()
+    if order > 0:
+        for corpus_file in corpus_files:
+            fd = open(corpus_file, 'r')
+            text = fd.read()
+            input_ngram_seqs = [islice(text, i, None) for i in xrange(order)]
+            for input_ngram in izip(*input_ngram_seqs):
+                typewriter_ngram = map(translate_input_char, input_ngram)
+                _freq_tab_inc(freq_tab, map(char_to_index, typewriter_ngram))
+            fd.close()
     return freq_tab
 
 
@@ -112,7 +114,13 @@ def freq_tab_simulation(freq_tab, num_chars, output_file):
 
 
 def relative_word_yield(simulated_file, corpus_file):
-    pass
+    word_yield = 0
+    corpus_words = _get_words(corpus_file)
+    for word in _get_words(simulated_file):
+        if word in corpus_words:
+            word_yield += 1
+    relative_word_yield = word_yield / float(len(corpus_words))
+    return relative_word_yield
 
 
 def profile_creation(freq_tab, profile_len):
@@ -125,7 +133,7 @@ def profile_dissimilarity(profile1, profile2):
 
 # Initialize a freq table with all counts set to a given value.
 def _freq_tab_init(order, value=0):
-    freq_tab = [value] * NUM_CHARS
+    freq_tab = [value] * NUM_CHARS if order > 0 else None
     for n in xrange(1, order):
         tmp = [freq_tab]
         tmp += [deepcopy(freq_tab) for i in xrange(NUM_CHARS - 1)] 
@@ -186,3 +194,16 @@ def _freq_tab_sample(freq_tab, ngram_prefix):
     char_index = (randint(0, NUM_CHARS - 1) if cumul_sum == 0 else
                   bisect_left(cumul_freqs, randint(0, cumul_sum)))
     return char_index
+
+
+# Return a set with the words in the file.
+def _get_words(text_file):
+    split_chars = '@'
+    for char in PUNCTUATION.iterkeys():
+        # The dash needs to be escaped in the regex.
+        split_chars += '\-' if char == '-' else char
+    fd = open(text_file, 'r')
+    translated_text = ''.join((translate_input_char(char) for char in fd.read()))
+    fd.close()
+    words = split('[' + split_chars + ']+', translated_text.strip(split_chars))
+    return set(words)
