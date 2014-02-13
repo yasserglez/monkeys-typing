@@ -85,8 +85,33 @@ def freq_tab_read(input_file):
     return freq_tab
 
 
-def freq_tab_most_probable_path(freq_tab, ngram_prefix, max_chars):
-    pass
+# Given an n-gram prefix with (n-1) chars, compute the most probable
+# character seq without repeated char following the given freq 
+# table of order n.  
+def freq_tab_most_probable_path(freq_tab, ngram_prefix):
+    path = ngram_prefix
+    ngram_prefix = deque()
+    for char in path:
+        ngram_prefix.append(char_to_index(char))
+    while len(path) < NUM_CHARS:
+        tab_ref = freq_tab
+        for i in ngram_prefix:
+            tab_ref = tab_ref[i]
+        # Find the char with the highest freq not already in the path.
+        char_freq, char_index = 0, None
+        for i in xrange(NUM_CHARS):
+            if tab_ref[i] > char_freq and index_to_char(i) not in path:
+                char_freq = tab_ref[i]
+                char_index = i
+        if char_freq > 0:
+            # Append the char with the highest freq and update the prefix.
+            path += index_to_char(char_index)
+            ngram_prefix.append(char_index)
+            ngram_prefix.popleft()
+        else:
+            # All remaining chars have zero freqs.
+            break
+    return path
 
 
 # Sample num_chars chars from the freq table and save them to output_file.
@@ -113,13 +138,15 @@ def freq_tab_simulation(freq_tab, num_chars, output_file):
     fd.close()
 
 
+# Number of words from the corpus file that appear in the simulated file
+# divided by the total number of words in the corpus file.
 def relative_word_yield(simulated_file, corpus_file):
-    word_yield = 0
+    word_yield = 0.0
     corpus_words = _get_words(corpus_file)
     for word in _get_words(simulated_file):
         if word in corpus_words:
             word_yield += 1
-    relative_word_yield = word_yield / float(len(corpus_words))
+    relative_word_yield = word_yield / len(corpus_words)
     return relative_word_yield
 
 
@@ -191,6 +218,8 @@ def _freq_tab_sample(freq_tab, ngram_prefix):
     for i in xrange(NUM_CHARS):
         cumul_sum += tab_ref[i]
         cumul_freqs.append(cumul_sum)
+    # Simulate an integer in [0, cumul_sum] and find its position in the
+    # ordered list cumul_freqs. The position corresponds to the char index.
     char_index = (randint(0, NUM_CHARS - 1) if cumul_sum == 0 else
                   bisect_left(cumul_freqs, randint(0, cumul_sum)))
     return char_index
