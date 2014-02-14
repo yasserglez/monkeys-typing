@@ -13,7 +13,7 @@ PUNCTUATION = {p:p for p in ' ,.;:?!()-\'"'}
 INPUT_CHAR_MAP = dict(LETTERS.items() + DIGITS.items() + 
                       PUNCTUATION.items())
 
-# Build maps of typewriter chars to integers and vice versa.
+# Build a map of typewriter chars to integers and vice versa.
 INDEX_MAP = ''.join(sorted(set(INPUT_CHAR_MAP.values() + ['@'])))
 CHAR_MAP = {c:i for i, c in enumerate(INDEX_MAP)}
 
@@ -31,8 +31,9 @@ char2index = lambda c: CHAR_MAP[c]
 index2char = lambda i: INDEX_MAP[i]
 
 
-# Compute a freq table of the given order from plain text files.
-def freq_tab_creation(order, *corpus_files):
+# Compute a freq table of the given order from plain text files. The
+# freq table is represented as nested lists with NUM_CHARS entries.
+def compute_freq_tab(order, *corpus_files):
     freq_tab = _freq_tab_init(order)
     for corpus_file in corpus_files:
         fd = open(corpus_file, 'r')
@@ -47,7 +48,7 @@ def freq_tab_creation(order, *corpus_files):
 
 # Reduce the resolution of the typewriter -- i.e. reduce the freqs 
 # in the table by the ratio given in factor. freq_tab is modified!
-def freq_tab_resolution(freq_tab, factor):
+def change_freq_tab_resolution(freq_tab, factor):
     order = _freq_tab_order(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
@@ -57,7 +58,7 @@ def freq_tab_resolution(freq_tab, factor):
 
 
 # Export all the n-grams with non-zero freqs to a JSON file.
-def freq_tab_write(freq_tab, output_file):
+def write_freq_tab(freq_tab, output_file):
     order = _freq_tab_order(freq_tab)
     nonzero_ngrams = {}
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
@@ -71,7 +72,7 @@ def freq_tab_write(freq_tab, output_file):
 
 
 # Build the freq table from the n-gram freqs in a JSON file.
-def freq_tab_read(input_file):
+def read_freq_tab(input_file):
     fd = open(input_file, 'r')
     nonzero_ngrams = load(fd)
     fd.close()
@@ -83,8 +84,8 @@ def freq_tab_read(input_file):
 
 
 # Given an n-gram prefix with (n-1) chars, compute the most probable
-# char seq without repeated chars following the given freq table.  
-def freq_tab_most_probable_path(freq_tab, ngram_prefix):
+# char seq without repeated chars according to the given freq table.
+def most_probable_freq_tab_path(freq_tab, ngram_prefix):
     path = ngram_prefix
     ngram_prefix = []
     for char in path:
@@ -110,10 +111,10 @@ def freq_tab_most_probable_path(freq_tab, ngram_prefix):
     return path
 
 
-# Sample num_chars chars from the given freq table and save them to 
+# Sample num_chars chars from the freq table and save them to 
 # output_file. freq_tab must be set to None for the straightforward
 # monkey problem (order 0).
-def freq_tab_simulation(freq_tab, num_chars, output_file):
+def simulate_freq_tab(freq_tab, num_chars, output_file):
     order = _freq_tab_order(freq_tab)
     ngram_prefix = []
     fd = open(output_file, 'w')
@@ -150,7 +151,7 @@ def relative_word_yield(simulated_file, corpus_file):
 # Build a Common N-Grams (CNG) profile of length profile_len from the
 # freq table. The profile is represented as a dict of the ngrams and
 # their normalized freqs.
-def profile_creation(freq_tab, profile_len):
+def cng_profile(freq_tab, profile_len):
     order = _freq_tab_order(freq_tab)
     total_freq = 0.0
     ngrams, ngram_freqs = [], []
@@ -172,7 +173,7 @@ def profile_creation(freq_tab, profile_len):
 
 
 # Common N-Grams (CNG) profile dissimilarity.
-def profile_dissimilarity(profile1, profile2):
+def cng_dissimilarity(profile1, profile2):
     dissimilarity = 0
     for ngram in chain(profile1.iterkeys(), profile2.iterkeys()):
         ngram_freq1 = profile1.get(ngram, 0)
@@ -187,7 +188,7 @@ def _freq_tab_init(order, value=0):
     freq_tab = [value] * NUM_CHARS if order > 0 else None
     for n in xrange(1, order):
         tmp = [freq_tab]
-        tmp += [deepcopy(freq_tab) for i in xrange(NUM_CHARS - 1)] 
+        tmp += [deepcopy(freq_tab) for i in xrange(NUM_CHARS - 1)]
         freq_tab = tmp
     return freq_tab
 
@@ -222,7 +223,8 @@ def _freq_tab_set(freq_tab, ngram_index, ngram_freq):
             tab_ref = tab_ref[i]
 
 
-# Add 1 to the freq of an n-gram given the indexes of its chars.
+# Add 1 to the freq of an n-gram given the indexes of its chars,
+# more efficient that using _freq_tab_get and then _freq_tab_set.
 def _freq_tab_inc(freq_tab, ngram_index):
     tab_ref = freq_tab
     for n, i in enumerate(ngram_index):
@@ -243,8 +245,8 @@ def _freq_tab_sample(freq_tab, ngram_prefix):
     for i in xrange(NUM_CHARS):
         total_freq += tab_ref[i]
         cumul_freqs.append(total_freq)
-    # Sample an integer in [0,total_freq] and find its position in the
-    # ordered list cumul_freqs. The position will be the char index.
+    # Sample an integer in [0,total_freq] and find its position in 
+    # the ordered list cumul_freqs. The position is the char index.
     char_index = (randint(0, NUM_CHARS - 1) if total_freq == 0 else
                   bisect_left(cumul_freqs, randint(0, total_freq)))
     return char_index
@@ -254,11 +256,11 @@ def _freq_tab_sample(freq_tab, ngram_prefix):
 def _get_words(text_file):
     split_chars = '@'
     for char in PUNCTUATION.iterkeys():
-        # The dash needs to be escaped in the regex.
-        split_chars += '\-' if char == '-' else char
+        # The dash must be escaped in the regex.
+        split_chars += r'\-' if char == '-' else char
     fd = open(text_file, 'r')
     typewriter_text = ''.join((map_input_char(c) for c in fd.read()))
     fd.close()
     split_re = '[' + split_chars + ']+'
-    words = split(split_re, typewriter_text.strip(split_chars))
-    return set(words)
+    words = set(split(split_re, typewriter_text.strip(split_chars)))
+    return words
