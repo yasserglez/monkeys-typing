@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass{IEEEtran}
 
 \usepackage{verbatim}
 \usepackage{framed}
@@ -7,13 +7,10 @@
 
 \begin{document}
 
-\title{
-CSE~6339 -- Second Assignment\thanks{test}
-}
-
-\author{
-\IEEEauthorblockN{Yasser Gonzalez Fernandez -- ygf@yorku.ca, ygonzalezfernanez@gmail.com}
-}
+\title{CSE6339$^*$ -- Second Assignment
+\thanks{$^*$CSE6339: Introduction to Computational Linguistics. 
+Instructor: Prof. Nick Cercone, Department of Electrical Engineering \& Computer Science, York University, Canada.}}
+\author{\IEEEauthorblockN{Yasser Gonzalez-Fernandez -- ygf@yorku.ca, ygonzalezfernanez@gmail.com}}
 
 \maketitle
 
@@ -23,13 +20,160 @@ CSE~6339 -- Second Assignment\thanks{test}
 
 \section{Introduction}
 
+\section{Solutions}
+
+\subsection{Problem 1a}
+
+\begin{quote}
+``Simulate the straightforward monkey problem. Let the program run long enough to 
+give a meaningful estimate of the yield of words. The result will provide a 
+useful comparison with later forms of the problem.''
+\end{quote}
+
+
+\subsection{Problem 1b}
+
+\begin{quote}
+``Use the data in Table~\ref{tab:hamlet} to simulate the first-order monkey problem. 
+Again let the program run long enough to give a meaningful estimate of the yield 
+of words to permit comparison with other results on relative word yield. Try running
+this simulation program against other corpora.''
+\end{quote}
+
+\begin{table}
+\caption{\hspace{2em}Character Distribution from Act III of Hamlet. \newline
+Note: 35,224 characters, a small corpus.\label{tab:hamlet}}
+\vspace{-10pt}
+\begin{center}
+\begin{tabular}{crcrcr}
+\hline
+Char. & Freq. & Char. & Freq. & Char. & Freq. \\
+\hline
+space & 6934  & r     & 1593  & p     & 433   \\
+e     & 3277  & l     & 1238  & b     & 410   \\
+o     & 2578  & d     & 1099  & v     & 309   \\
+t     & 2557  & u     & 1014  & k     & 255   \\
+a     & 2043  & m     & 889   & '     & 203   \\
+s     & 1856  & y     & 783   & j     & 34    \\
+h     & 1773  & f     & 629   & q     & 27    \\
+n     & 1741  & c     & 584   & x     & 21    \\
+i     & 1736  & g     & 478   & z     & 14    \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\subsection{Problem 1c}
+
+\begin{quote}
+``Use the data supplied, data listed in Table~\ref{tab:books}, to simulate the 
+second-order and third order Bronte monkey problem. Again let the program run 
+long enough to give a meaningful estimate of the yield of words to permit 
+comparison with other results on relative word yield. Try running this 
+simulation program against other authors listed.''
+\end{quote}
+
+\begin{table}
+\caption{Data made available for this assignment.\label{tab:books}}
+\vspace{-18pt}
+\begin{center}
+\begin{tabular}{llr}
+\hline
+Author & Title & Size\hspace{0.9em} \\
+\hline
+Charles Dickens & A Christmas Carol & 184Kb \\
+Charles Dickens & A Tale of Two Cities & 775Kb \\
+Emily Bronte & Wuthering Heights & 666Kb \\
+Anne Bronte & Agnes Grey & 389Kb \\
+Charlotte Bronte & Jane Eyre & 1Mb \\
+Edgar Rice Burroughs & Tarzan of the Apes & 500Kb \\
+Edgar Rice Burroughs & Warlord of Mars & 331Kb \\
+Edgar Rice Burroughs & The People that Time Forgot & 226Kb \\
+Edgar Rice Burroughs & The Land that Time Forgot & 220Kb \\
+H. Ryder Haggard & King Solomon's Mines & 463Kb \\
+John Cleland & Fanny Hill & 483Kb \\
+Lewis Carroll & Alice's Adventures in Wonderland & 164Kb \\
+Lewis Carroll & Through the Looking Glass & 182Kb \\
+Washington Irving & Legend of Sleepy Hollow & 87Kb \\
+Sir Arthur Conan Doyle & The Adventures of Sherlock Holmes & 589Kb \\
+Sir Arthur Conan Doyle & The Lost World & 459Kb \\
+Sir Arthur Conan Doyle & The Hound of the Baskervilles & 346Kb \\
+Sir Arthur Conan Doyle & Tales of Terror and Mystery & 430Kb \\
+Mark Twain & Adventures of Huckleberry Finn & 583Kb \\
+Mark Twain & The Adventures of Tom Sawyer & 406Kb \\
+Mark Twain & The Adventures of Tom Sawyer & 406Kb \\
+Mark Twain & A Connecticut Yankee in & 661Kb \\
+           & King Arthur's Court & \\
+Nicolo Machiavelli & Court Prince & 299Kb \\
+H. G. Wells & Court of the Worlds & 357Kb \\
+H. G. Wells & The Time Machine & 197Kb \\
+Franz Kafka & Metamorphosis & 138Kb \\
+Franz Kafka & The Trial & 463Kb \\
+Rudyard Kipling & The Jungle Book & 292Kb \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Problem 1d}
+
+\begin{quote}
+``Investigate the effects of resolution on monkey literacy in the simulation. 
+For example round off the matrix elements to the smallest number of places --
+or use an equivalent means to reduce the number of keys on the typewriters.''
+\end{quote}
+
+\subsection{Problem 1e}
+
+\begin{quote}
+``Write a routine to compute correlation matrices of the type shown in the 
+handout from data supplied (the books shown in Table~\ref{tab:books}).''
+\end{quote}
+
+\subsection{Problem 1f}
+
+\begin{quote}
+''Using the algorithm in the handout~\cite{} with the pair-correlation matrix 
+generated from Irving (book shown in Table~\ref{tab:books}), compute the most 
+probable digraph path, which starts with the letter 't'. Compare the result with 
+that given in the handout for Poe's `The Gold Bug'''.
+\end{quote}
+
+\subsection{Problem 1g}
+
+\begin{quote}
+``Design and implement an experiment using data from the books shown in Table~\ref{tab:books}
+that might be used to perform author attribution. Discuss your solution and provide reasons 
+why it is likely or not likely to solve the problem definitively.''
+\end{quote}
+
+\subsection{Problem 1h}
+
+\begin{quote}
+``Can you develop a metric based on what you have done so far to classify the stories, e.g., 
+as mystery, romance, action/adventure, etc.? Implement your techniques to demonstrate 
+classification. Can the classification scheme you designed help with author attribution? 
+Can you say something about correlations among books written by the same author? 
+Is there any relationship to the styles of the three Bronte sisters' works?''
+\end{quote}
+
+\subsection{Problem 1i}
+
+\begin{quote}
+``Develop a profile for each of the different authors in Table~\ref{tab:books} and provide 
+a metric and argument that compares and contrasts authors in order to speculate which 
+two authors are the most `similar' in style.''
+\end{quote}
+
+
 % \bibliographystyle{IEEEtran}
 % \bibliography{references,IEEEabrv}
 
 \appendix
 
 \begin{framed}
-\fontsize{5.7}{6.84}\selectfont
+\fontsize{5.65}{6.78}\selectfont
 \verbatiminput{monkeys.py}
 \end{framed}
 
