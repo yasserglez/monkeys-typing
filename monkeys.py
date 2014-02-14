@@ -1,5 +1,4 @@
 from bisect import bisect_left
-from collections import deque
 from copy import deepcopy
 from itertools import chain, islice, izip, product
 from json import dump, load
@@ -87,7 +86,7 @@ def freq_tab_read(input_file):
 # char seq without repeated chars following the given freq table.  
 def freq_tab_most_probable_path(freq_tab, ngram_prefix):
     path = ngram_prefix
-    ngram_prefix = deque()
+    ngram_prefix = []
     for char in path:
         ngram_prefix.append(char2index(char))
     while len(path) < NUM_CHARS:
@@ -104,7 +103,7 @@ def freq_tab_most_probable_path(freq_tab, ngram_prefix):
             # Append the char and update the prefix.
             path += index2char(char_index)
             ngram_prefix.append(char_index)
-            ngram_prefix.popleft()
+            ngram_prefix.pop(0)
         else:
             # Stop. All remaining chars have zero freqs.
             break
@@ -116,7 +115,7 @@ def freq_tab_most_probable_path(freq_tab, ngram_prefix):
 # monkey problem (order 0).
 def freq_tab_simulation(freq_tab, num_chars, output_file):
     order = _freq_tab_order(freq_tab)
-    ngram_prefix = deque()
+    ngram_prefix = []
     fd = open(output_file, 'w')
     for i in xrange(num_chars):
         if order == 0:
@@ -131,7 +130,7 @@ def freq_tab_simulation(freq_tab, num_chars, output_file):
                 # Sample according to the freq table.
                 char_index = _freq_tab_sample(freq_tab, ngram_prefix)
                 ngram_prefix.append(char_index)
-                ngram_prefix.popleft()
+                ngram_prefix.pop(0)
         fd.write(index2char(char_index))
     fd.close()
 
