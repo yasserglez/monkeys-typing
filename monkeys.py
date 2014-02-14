@@ -148,8 +148,28 @@ def relative_word_yield(simulated_file, corpus_file):
     return relative_word_yield
 
 
+# Build a Common N-Grams (CNG) profile of length profile_len from the
+# freq table. The profile is represented as a dict of the ngrams and
+# their normalized freqs.
 def profile_creation(freq_tab, profile_len):
-    pass
+    order = _freq_tab_order(freq_tab)
+    total_freq = 0.0
+    ngrams, ngram_freqs = [], []
+    for ngram_index in product(xrange(NUM_CHARS), repeat=order):
+        ngram_freq = _freq_tab_get(freq_tab, ngram_index)
+        if ngram_freq > 0:
+            total_freq += ngram_freq
+            i = bisect_left(ngram_freqs, ngram_freq)
+            if len(ngram_freqs) < profile_len or i > 0:
+                ngram_freqs.insert(i, ngram_freq)
+                ngram = ''.join(map(index2char, ngram_index))
+                ngrams.insert(i, ngram)
+            if len(ngram_freqs) > profile_len:
+                ngram_freqs.pop(0)
+                ngrams.pop(0)
+    normalize = lambda freq: freq / total_freq
+    profile = dict(zip(ngrams, map(normalize, ngram_freqs)))
+    return profile
 
 
 def profile_dissimilarity(profile1, profile2):
@@ -210,17 +230,17 @@ def _freq_tab_inc(freq_tab, ngram_index):
 # the n-gram prefix.
 def _freq_tab_sample(freq_tab, ngram_prefix):
     # Compute the cumulative values of the freq dist.
-    cumul_sum, cumul_freqs = 0, []
+    total_freq, cumul_freqs = 0, []
     tab_ref = freq_tab
     for i in ngram_prefix:
         tab_ref = tab_ref[i]
     for i in xrange(NUM_CHARS):
-        cumul_sum += tab_ref[i]
-        cumul_freqs.append(cumul_sum)
-    # Sample an integer in [0,cumul_sum] and find its position in the
+        total_freq += tab_ref[i]
+        cumul_freqs.append(total_freq)
+    # Sample an integer in [0,total_freq] and find its position in the
     # ordered list cumul_freqs. The position will be the char index.
-    char_index = (randint(0, NUM_CHARS - 1) if cumul_sum == 0 else
-                  bisect_left(cumul_freqs, randint(0, cumul_sum)))
+    char_index = (randint(0, NUM_CHARS - 1) if total_freq == 0 else
+                  bisect_left(cumul_freqs, randint(0, total_freq)))
     return char_index
 
 
