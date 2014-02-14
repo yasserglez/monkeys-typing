@@ -1,7 +1,7 @@
 from bisect import bisect_left
 from collections import deque
 from copy import deepcopy
-from itertools import islice, izip, product
+from itertools import chain, islice, izip, product
 from json import dump, load
 from random import randint
 from re import split
@@ -172,8 +172,15 @@ def profile_creation(freq_tab, profile_len):
     return profile
 
 
+# Common N-Grams (CNG) profile dissimilarity.
 def profile_dissimilarity(profile1, profile2):
-    pass
+    dissimilarity = 0
+    for ngram in chain(profile1.iterkeys(), profile2.iterkeys()):
+        ngram_freq1 = profile1.get(ngram, 0)
+        ngram_freq2 = profile2.get(ngram, 0)
+        dissimilarity += (2 * (ngram_freq1 - ngram_freq2) / 
+                          (ngram_freq1 + ngram_freq2)) ** 2
+    return dissimilarity
 
 
 # Initialize a freq table with all counts set to a given value.
