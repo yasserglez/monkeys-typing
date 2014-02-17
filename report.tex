@@ -4,6 +4,7 @@
 \usepackage{framed}
 \usepackage{url}
 \usepackage{flushend}
+\usepackage{multirow}
 
 \begin{document}
 
@@ -35,7 +36,7 @@ give a meaningful estimate of the yield of words. The result will provide a
 useful comparison with later forms of the problem.''
 \end{quote}
 
-...the first book of each author listed in Table~\ref{tab:books} (books numbered~1, 
+...the first book of each author listed in Table~\ref{tab:data} (books numbered~1, 
 3, 4, 5, 6, 10, 11, 12, 14, 15, 19, 22, 23, 25, and 27)
 
 \begin{framed}
@@ -102,20 +103,42 @@ i     & 1,736  & g     & 478   & z     & 14    \\
 \verbatiminput{problem1b.py}
 \end{framed}
 
+\begin{table}
+\caption{Relative word yield of the first-order monkey problem \newline
+with the character frequencies in Table~\ref{tab:hamlet}.\label{tab:problem1b}}
+\vspace{-10pt}
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+Book No. & Avg. Rate & Book No. & Avg. Rate \\
+\hline
+1  & \% & 14 & \% \\
+3  & \% & 15 & \% \\
+4  & \% & 19 & \% \\
+5  & \% & 22 & \% \\
+6  & \% & 23 & \% \\
+10 & \% & 25 & \% \\
+11 & \% & 27 & \% \\
+12 & \% & & \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
 
 \subsection{Problem 1c}
 
 \begin{quote}
-``Use the data supplied, data listed in Table~\ref{tab:books}, to simulate the 
-second-order and third order Bronte monkey problem. Again let the program run 
+``Use the data supplied, data listed in Table~\ref{tab:data}, to simulate the 
+second-order and third-order Bronte monkey problem. Again let the program run 
 long enough to give a meaningful estimate of the yield of words to permit 
 comparison with other results on relative word yield. Try running this 
 simulation program against other authors listed.''
 \end{quote}
 
 \begin{table}
-\caption{Data made available for this assignment.\label{tab:books}}
-\vspace{-10pt}
+\caption{Data made available for this assignment.\label{tab:data}}
+\vspace{-18pt}
 \begin{center}
 \begin{tabular}{r@{\hspace{1.1em}}l@{\hspace{1.1em}}l@{\hspace{0.75em}}r}
 \hline
@@ -154,10 +177,38 @@ No. & Author & Title & Chars. \\
 \end{center}
 \end{table}
 
+...the books written by the Bronte sisters in Table~\ref{tab:data}
+(books numbered 3, 4, and 5).
+
 \begin{framed}
 \fontsize{5.65}{6.78}\selectfont
 \verbatiminput{problem1c.py}
 \end{framed}
+
+\begin{table}
+\caption{Relative word yield of the second-order (2nd) and 
+third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
+\vspace{-10pt}
+\begin{center}
+
+\begin{tabular}{cccccc}
+\hline 
+\multirow{2}{*}{Book No.} & \multicolumn{2}{c}{Avg. Rate} & \multirow{2}{*}{Book No.} & \multicolumn{2}{c}{Avg. Rate} \\
+\cline{2-3} \cline{5-6} 
+ & 2nd & 3rd &  & 2nd & 3rd \\
+\hline
+1  & \% & \% & 14 & \% & \% \\
+3  & \% & \% & 15 & \% & \% \\
+4  & \% & \% & 19 & \% & \% \\
+5  & \% & \% & 22 & \% & \% \\
+6  & \% & \% & 23 & \% & \% \\
+10 & \% & \% & 25 & \% & \% \\
+11 & \% & \% & 27 & \% & \% \\
+12 & \% & \% &    &    & \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
 \subsection{Problem 1d}
 
@@ -176,7 +227,7 @@ or use an equivalent means to reduce the number of keys on the typewriters.''
 
 \begin{quote}
 ``Write a routine to compute correlation matrices of the type shown in the 
-handout~\cite{Bennett1976} from data supplied (the books shown in Table~\ref{tab:books}).''
+handout~\cite{Bennett1976} from data supplied (the books shown in Table~\ref{tab:data}).''
 \end{quote}
 
 \begin{framed}
@@ -188,7 +239,7 @@ handout~\cite{Bennett1976} from data supplied (the books shown in Table~\ref{tab
 
 \begin{quote}
 ''Using the algorithm in the handout~\cite{Bennett1976} with the pair-correlation matrix 
-generated from Irving (book shown in Table~\ref{tab:books}), compute the most 
+generated from Irving (book shown in Table~\ref{tab:data}), compute the most 
 probable digraph path, which starts with the letter `t'. Compare the result with 
 that given in the handout for Poe's `The Gold Bug'''.
 \end{quote}
@@ -201,7 +252,7 @@ that given in the handout for Poe's `The Gold Bug'''.
 \subsection{Problem 1g}
 
 \begin{quote}
-``Design and implement an experiment using data from the books shown in Table~\ref{tab:books}
+``Design and implement an experiment using data from the books shown in Table~\ref{tab:data}
 that might be used to perform author attribution. Discuss your solution and provide reasons 
 why it is likely or not likely to solve the problem definitively.''
 \end{quote}
@@ -229,7 +280,7 @@ Is there any relationship to the styles of the three Bronte sisters' works?''
 \subsection{Problem 1i}
 
 \begin{quote}
-``Develop a profile for each of the different authors in Table~\ref{tab:books} and provide 
+``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide 
 a metric and argument that compares and contrasts authors in order to speculate which 
 two authors are the most `similar' in style.''
 \end{quote}
