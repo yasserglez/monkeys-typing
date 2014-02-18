@@ -20,7 +20,7 @@ corpus = (
 
 for book_path in corpus:
     freq_tab = compute_freq_tab(2, book_path)
-    path_2nd_order = most_probable_freq_tab_path(freq_tab, 't')
+    digraph_path = most_probable_freq_tab_path(freq_tab, 't')
     freq_tab = compute_freq_tab(3, book_path)
-    path_3rd_order = most_probable_freq_tab_path(freq_tab, 'th')
-    print book_path, path_2nd_order, path_3rd_order
+    trigraph_path = most_probable_freq_tab_path(freq_tab, 'th')
+    print book_path, digraph_path, trigraph_path
