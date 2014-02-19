@@ -47,14 +47,16 @@ def compute_freq_tab(order, *corpus_files):
 
 
 # Reduce the resolution of the typewriter -- i.e. reduce the freqs 
-# in the table by the ratio given in factor. freq_tab is modified!
-def change_freq_tab_resolution(freq_tab, factor):
-    order = _freq_tab_order(freq_tab)
+# in the table by the ratio given in factor. freq_tab is duplicated.
+def freq_tab_resolution(freq_tab, factor):
+    dup_freq_tab = deepcopy(freq_tab)
+    order = _freq_tab_order(dup_freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
-        ngram_freq = _freq_tab_get(freq_tab, ngram_index)
+        ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
             ngram_freq = int(factor * ngram_freq)
-            _freq_tab_set(freq_tab, ngram_index, ngram_freq)
+            _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
+    return dup_freq_tab
 
 
 # Export all the n-grams with non-zero freqs to a JSON file.
