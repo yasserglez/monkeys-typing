@@ -171,7 +171,7 @@ def unique_word_yield(simulated_file, corpus_file):
     corpus_words = set(_get_words(corpus_file))
     for word in _get_words(simulated_file):
         if word in corpus_words:
-            unique_correct_words.append(word)
+            unique_correct_words.add(word)
             correct_words += 1
     unique_word_yield = len(unique_correct_words) / correct_words
     return unique_word_yield
