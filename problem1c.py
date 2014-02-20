@@ -29,5 +29,5 @@ for order in (2, 3):
     freq_tab = compute_freq_tab(order, *bronte_books)
     for book_path, book_chars in corpus:
         simulate_freq_tab(freq_tab, 10 * book_chars, 'tmp.txt')
-        rate = relative_word_yield('tmp.txt', book_path)
-        print book_path, rate
+        relative = relative_word_yield('tmp.txt', book_path)
+        print book_path, relative
