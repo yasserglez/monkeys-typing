@@ -48,8 +48,8 @@ def compute_freq_tab(order, *corpus_files):
 
 # Reduce the resolution of the typewriter. All the freqs. are
 # divided by a percentage of the maximum freq. determined by the 
-# rate value in [0,1]. A modified copy of freq_tab is returned.
-def reduce_freq_tab_resolution(freq_tab, rate):
+# world_yield value in [0,1]. A modified copy of freq_tab is returned.
+def reduce_freq_tab_resolution(freq_tab, world_yield):
     order = _freq_tab_order(freq_tab)
     # Find the n-gram with the highest freq.
     max_ngram_freq = 0
@@ -57,14 +57,14 @@ def reduce_freq_tab_resolution(freq_tab, rate):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > max_ngram_freq:
             max_ngram_freq = ngram_freq
-    # Calculate the rate that will divide all the freqs.
-    rate = float(rate * max_ngram_freq) if rate > 0 else 1
+    # Calculate the world_yield that will divide all the freqs.
+    world_yield = float(world_yield * max_ngram_freq) if world_yield > 0 else 1
     # Compute the transformed freq. table.
     dup_freq_tab = deepcopy(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram_freq = int(ngram_freq / rate)
+            ngram_freq = int(ngram_freq / world_yield)
             _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
     return dup_freq_tab
 
@@ -149,34 +149,16 @@ def simulate_freq_tab(freq_tab, num_chars, output_file):
 
 
 # Number correct words in the simulated file divided by the total 
-# number of words in the simulated file. A word is considered correct
-# if it appears in the corpus file.
+# number of words in the corpus_file file. A word is considered 
+# correct if it appears in the corpus file.
 def relative_word_yield(simulated_file, corpus_file):
     correct_words = 0.0
     corpus_words = set(_get_words(corpus_file))
-    simulated_words = _get_words(simulated_file)
-    for word in simulated_words:
-        if word in corpus_words:
-            correct_words += 1
-    relative_word_yield = (correct_words / len(simulated_words)
-                           if len(simulated_words) > 0 else 0)
-    return relative_word_yield
-
-
-# Number of unique correct words in the simulated file divided by the
-# total number of correct words in the simulated file. A word is 
-# considered correct if it appears in the corpus file.
-def unique_word_yield(simulated_file, corpus_file):
-    correct_words = 0.0
-    unique_correct_words = set()
-    corpus_words = set(_get_words(corpus_file))
     for word in _get_words(simulated_file):
         if word in corpus_words:
-            unique_correct_words.add(word)
             correct_words += 1
-    unique_word_yield = (len(unique_correct_words) / correct_words
-                         if correct_words > 0 else 0)
-    return unique_word_yield
+    relative_word_yield = correct_words / len(corpus_words)
+    return relative_word_yield
 
 
 # Build a Common N-Grams (CNG) profile of length profile_len from the

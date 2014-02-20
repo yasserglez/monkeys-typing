@@ -20,5 +20,5 @@ corpus = (
 
 for book_path, book_chars in corpus:
     simulate_freq_tab(None, 10 * book_chars, 'tmp.txt')
-    relative = relative_word_yield('tmp.txt', book_path)
-    print book_path, relative
+    world_yield = relative_word_yield('tmp.txt', book_path)
+    print book_path, world_yield
