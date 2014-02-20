@@ -46,15 +46,25 @@ def compute_freq_tab(order, *corpus_files):
     return freq_tab
 
 
-# Reduce the resolution of the typewriter -- i.e. reduce the freqs 
-# in the table by the ratio given in factor. freq_tab is duplicated.
-def freq_tab_resolution(freq_tab, factor):
+# Reduce the resolution of the typewriter. All the freqs. are
+# divided by a percentage of the maximum freq. determined by the 
+# rate value in [0,1]. A modified copy of freq_tab is returned.
+def reduce_freq_tab_resolution(freq_tab, rate):
+    order = _freq_tab_order(freq_tab)
+    # Find the n-gram with the highest freq.
+    max_ngram_freq = 0
+    for ngram_index in product(xrange(NUM_CHARS), repeat=order):
+        ngram_freq = _freq_tab_get(freq_tab, ngram_index)
+        if ngram_freq > max_ngram_freq:
+            max_ngram_freq = ngram_freq
+    # Calculate the factor that will divide all the freqs.
+    factor = float(rate * max_ngram_freq) if rate > 0 else 1
+    # Compute the transformed freq. table.
     dup_freq_tab = deepcopy(freq_tab)
-    order = _freq_tab_order(dup_freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram_freq = int(factor * ngram_freq)
+            ngram_freq = int(ngram_freq / factor)
             _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
     return dup_freq_tab
 
@@ -138,16 +148,33 @@ def simulate_freq_tab(freq_tab, num_chars, output_file):
     fd.close()
 
 
-# Number of words from the corpus file that appear in the simulated 
-# file divided by the total number of words in the corpus file.
+# Number correct words in the simulated file divided by the total 
+# number of words in the simulated file. A word is considered correct
+# if it appears in the corpus file.
 def relative_word_yield(simulated_file, corpus_file):
-    word_yield = 0.0
-    corpus_words = _get_words(corpus_file)
+    correct_words = 0.0
+    corpus_words = set(_get_words(corpus_file))
+    simulated_words = _get_words(simulated_file)
+    for word in simulated_words:
+        if word in corpus_words:
+            correct_words += 1
+    relative_word_yield = correct_words / len(simulated_words)
+    return relative_word_yield
+
+
+# Number of unique correct words in the simulated file divided by the
+# total number of correct words in the simulated file. A word is 
+# considered correct if it appears in the corpus file.
+def unique_word_yield(simulated_file, corpus_file):
+    correct_words = 0.0
+    unique_correct_words = set()
+    corpus_words = set(_get_words(corpus_file))
     for word in _get_words(simulated_file):
         if word in corpus_words:
-            word_yield += 1
-    relative_word_yield = word_yield / len(corpus_words)
-    return relative_word_yield
+            unique_correct_words.append(word)
+            correct_words += 1
+    unique_word_yield = len(unique_correct_words) / correct_words
+    return unique_word_yield
 
 
 # Build a Common N-Grams (CNG) profile of length profile_len from the
@@ -254,7 +281,7 @@ def _freq_tab_sample(freq_tab, ngram_prefix):
     return char_index
 
 
-# Return a set with the words in the file.
+# Return a list with the words in the file.
 def _get_words(text_file):
     split_chars = '@'
     for char in PUNCTUATION.iterkeys():
@@ -264,5 +291,5 @@ def _get_words(text_file):
     typewriter_text = ''.join((map_input_char(c) for c in fd.read()))
     fd.close()
     split_re = '[' + split_chars + ']+'
-    words = set(split(split_re, typewriter_text.strip(split_chars)))
+    words = split(split_re, typewriter_text.strip(split_chars))
     return words
