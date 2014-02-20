@@ -149,15 +149,16 @@ def simulate_freq_tab(freq_tab, num_chars, output_file):
 
 
 # Number correct words in the simulated file divided by the total 
-# number of words in the corpus_file file. A word is considered 
+# number of words in the simulated file. A word is considered 
 # correct if it appears in the corpus file.
 def relative_word_yield(simulated_file, corpus_file):
     correct_words = 0.0
+    simulated_words = _get_words(simulated_file)
     corpus_words = set(_get_words(corpus_file))
-    for word in _get_words(simulated_file):
+    for word in simulated_words:
         if word in corpus_words:
             correct_words += 1
-    relative_word_yield = correct_words / len(corpus_words)
+    relative_word_yield = correct_words / len(simulated_words)
     return relative_word_yield
 
 
