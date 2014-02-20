@@ -10,12 +10,8 @@ corpus = (
 for book_path, book_chars in corpus:
     for order in (1, 2, 3):
         orig_freq_tab = compute_freq_tab(order, book_path)
-        for factor in (0.0, 0.2, 0.4, 0.6, 0.8, 1.0):
+        for factor in (0.1 * k for k in xrange(11)):
             freq_tab = freq_tab_resolution(orig_freq_tab, factor)
-            rates = []
-            for i in xrange(30):
-                simulate_freq_tab(freq_tab, book_chars, 'tmp.txt')
-                rate = relative_word_yield('tmp.txt', book_path)
-                rates.append(rate)
-            avg_rate = sum(rates) / float(len(rates))
-            print ','.join([book_path, order, factor, avg_rate])
+            simulate_freq_tab(freq_tab, 10 * book_chars, 'tmp.txt')
+            rate = relative_word_yield('tmp.txt', book_path)
+            print '%s,%s,%s,%s' % (book_path, order, factor, rate)

@@ -21,9 +21,6 @@ corpus = (
 
 freq_tab = read_freq_tab('act_iii_hamlet.json')
 for book_path, book_chars in corpus:
-    rates = []
-    for i in xrange(30):
-        simulate_freq_tab(freq_tab, book_chars, 'tmp.txt')
-        rate = relative_word_yield('tmp.txt', book_path)
-        rates.append(rate)
-    print book_path, sum(rates) / float(len(rates))
+    simulate_freq_tab(freq_tab, 10 * book_chars, 'tmp.txt')
+    rate = relative_word_yield('tmp.txt', book_path)
+    print book_path, rate
