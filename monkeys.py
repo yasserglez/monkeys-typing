@@ -57,14 +57,14 @@ def reduce_freq_tab_resolution(freq_tab, rate):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > max_ngram_freq:
             max_ngram_freq = ngram_freq
-    # Calculate the factor that will divide all the freqs.
-    factor = float(rate * max_ngram_freq) if rate > 0 else 1
+    # Calculate the rate that will divide all the freqs.
+    rate = float(rate * max_ngram_freq) if rate > 0 else 1
     # Compute the transformed freq. table.
     dup_freq_tab = deepcopy(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram_freq = int(ngram_freq / factor)
+            ngram_freq = int(ngram_freq / rate)
             _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
     return dup_freq_tab
 
@@ -158,7 +158,8 @@ def relative_word_yield(simulated_file, corpus_file):
     for word in simulated_words:
         if word in corpus_words:
             correct_words += 1
-    relative_word_yield = correct_words / len(simulated_words)
+    relative_word_yield = (correct_words / len(simulated_words)
+                           if len(simulated_words) > 0 else 0)
     return relative_word_yield
 
 
@@ -173,7 +174,8 @@ def unique_word_yield(simulated_file, corpus_file):
         if word in corpus_words:
             unique_correct_words.add(word)
             correct_words += 1
-    unique_word_yield = len(unique_correct_words) / correct_words
+    unique_word_yield = (len(unique_correct_words) / correct_words
+                         if correct_words > 0 else 0)
     return unique_word_yield
 
 
