@@ -48,8 +48,8 @@ def compute_freq_tab(order, *corpus_files):
 
 # Reduce the resolution of the typewriter. All the freqs. are
 # divided by a percentage of the maximum freq. determined by the 
-# world_yield value in [0,1]. A modified copy of freq_tab is returned.
-def reduce_freq_tab_resolution(freq_tab, world_yield):
+# word_yield value in [0,1]. A modified copy of freq_tab is returned.
+def reduce_freq_tab_resolution(freq_tab, word_yield):
     order = _freq_tab_order(freq_tab)
     # Find the n-gram with the highest freq.
     max_ngram_freq = 0
@@ -57,14 +57,14 @@ def reduce_freq_tab_resolution(freq_tab, world_yield):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > max_ngram_freq:
             max_ngram_freq = ngram_freq
-    # Calculate the world_yield that will divide all the freqs.
-    world_yield = float(world_yield * max_ngram_freq) if world_yield > 0 else 1
+    # Calculate the word_yield that will divide all the freqs.
+    word_yield = float(word_yield * max_ngram_freq) if word_yield > 0 else 1
     # Compute the transformed freq. table.
     dup_freq_tab = deepcopy(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram_freq = int(ngram_freq / world_yield)
+            ngram_freq = int(ngram_freq / word_yield)
             _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
     return dup_freq_tab
 
