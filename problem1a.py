@@ -21,4 +21,4 @@ corpus = (
 for book_path, book_chars in corpus:
     simulate_freq_tab(None, 10 * book_chars, 'tmp.txt')
     world_yield = relative_word_yield('tmp.txt', book_path)
-    print book_path, world_yield
+    print '%s,%s' % (book_path, world_yield)

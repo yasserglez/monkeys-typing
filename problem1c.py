@@ -30,4 +30,4 @@ for order in (2, 3):
     for book_path, book_chars in corpus:
         simulate_freq_tab(freq_tab, 10 * book_chars, 'tmp.txt')
         world_yield = relative_word_yield('tmp.txt', book_path)
-        print book_path, world_yield
+        print '%s,%s,%s' % (book_path, order, world_yield)
