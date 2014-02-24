@@ -48,8 +48,8 @@ def compute_freq_tab(order, *corpus_files):
 
 # Reduce the resolution of the typewriter. All the freqs. are
 # divided by a percentage of the maximum freq. determined by the 
-# word_yield value in [0,1]. A modified copy of freq_tab is returned.
-def reduce_freq_tab_resolution(freq_tab, word_yield):
+# rate value in [0,1]. A modified copy of freq_tab is returned.
+def reduce_freq_tab_resolution(freq_tab, rate):
     order = _freq_tab_order(freq_tab)
     # Find the n-gram with the highest freq.
     max_ngram_freq = 0
@@ -57,14 +57,14 @@ def reduce_freq_tab_resolution(freq_tab, word_yield):
         ngram_freq = _freq_tab_get(freq_tab, ngram_index)
         if ngram_freq > max_ngram_freq:
             max_ngram_freq = ngram_freq
-    # Calculate the word_yield that will divide all the freqs.
-    word_yield = float(word_yield * max_ngram_freq) if word_yield > 0 else 1
+    # Calculate the rate that will divide all the freqs.
+    rate = float(rate * max_ngram_freq) if rate > 0 else 1
     # Compute the transformed freq. table.
     dup_freq_tab = deepcopy(freq_tab)
     for ngram_index in product(xrange(NUM_CHARS), repeat=order):
         ngram_freq = _freq_tab_get(dup_freq_tab, ngram_index)
         if ngram_freq > 0:
-            ngram_freq = int(ngram_freq / word_yield)
+            ngram_freq = int(ngram_freq / rate)
             _freq_tab_set(dup_freq_tab, ngram_index, ngram_freq)
     return dup_freq_tab
 
@@ -158,8 +158,8 @@ def relative_word_yield(simulated_file, corpus_file):
     for word in simulated_words:
         if word in corpus_words:
             correct_words += 1
-    relative_word_yield = correct_words / len(simulated_words)
-    return relative_word_yield
+    word_yield = correct_words / len(simulated_words)
+    return word_yield
 
 
 # Build a Common N-Grams (CNG) profile of length profile_len from the
