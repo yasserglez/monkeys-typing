@@ -19,7 +19,7 @@ corpus = (
     ('books/the_jungle_book.txt', 279771)
 )
 
-freq_tab = read_freq_tab('act_iii_hamlet.json')
+freq_tab = read_freq_tab('act_iii_hamlet_1st_order.json')
 for book_path, book_chars in corpus:
     simulate_freq_tab(freq_tab, 10 * book_chars, 'tmp.txt')
     word_yield = relative_word_yield('tmp.txt', book_path)
