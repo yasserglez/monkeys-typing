@@ -5,6 +5,7 @@
 \usepackage{url}
 \usepackage{flushend}
 \usepackage{multirow}
+\usepackage{graphicx}
 
 \newcommand{\codeinline}[1]{{\fontsize{8}{0}\selectfont\texttt{#1}}}
 \newcommand{\codeintable}[1]{{\fontsize{6.215}{7.458}\selectfont\texttt{#1}}}
@@ -219,10 +220,19 @@ For example round off the matrix elements to the smallest number of places --
 or use an equivalent means to reduce the number of keys on the typewriters.''
 \end{quote}
 
-...three books of small, medium and large size were selected among the 
-books listed in Table~\ref{tab:data} (numbered 14, 4, and 5 respectively).
+...a book of medium size was selected among the books listed in Table~\ref{tab:data} 
+(book number 4).
 
 \codefile{problem1d.py}
+
+Fig.~\ref{problem1d} shows the results of the study.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{problem1d}
+\caption{Effect of resolution on monkey literacy.}
+\label{problem1d}
+\end{figure}
 
 
 \subsection{Problem 1e}
