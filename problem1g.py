@@ -29,12 +29,12 @@ testing_corpus = {
 }
 
 for profile_len in (10, 100, 500):
-    # Build the author's profiles database.
+    # Build the author's profile database.
     profiles = {}
     for author, book_paths in training_corpus.iteritems():
         freq_tab = compute_freq_tab(3, *book_paths)
         profiles[author] = cng_profile(freq_tab, profile_len)
-    # Predict the authors of the books in the test corpus.
+    # Predict the authors of the books in the testing corpus.
     for author, book_path in testing_corpus.iteritems():
         freq_tab = compute_freq_tab(3, book_path)
         profile = cng_profile(freq_tab, profile_len)
@@ -45,4 +45,3 @@ for profile_len in (10, 100, 500):
             if pred_author is None or dissim < min_dissim:
                 pred_author, min_dissim = cand_author, dissim
         print '%s,%s,%s' % (profile_len, author, pred_author)
-
