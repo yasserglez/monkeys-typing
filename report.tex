@@ -6,6 +6,7 @@
 \usepackage{flushend}
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage{rotating}
 
 \newcommand{\codeinline}[1]{{\fontsize{8}{0}\selectfont\texttt{#1}}}
 \newcommand{\codeintable}[1]{{\fontsize{6.215}{7.458}\selectfont\texttt{#1}}}
@@ -384,6 +385,67 @@ two authors are the most `similar' in style.''
 \end{quote}
 
 \codefile{problem1i.py}
+
+The CNG normalized dissimilarity matrix is presented in Table~\ref{tab:problem1i}.
+
+\begin{table*}
+
+\caption{\hspace{6em}Normalized CNG dissimilarity scores for every pair of authors. For each author, \newline
+the score corresponding to its most similar counterpart is highlighted bold.\label{tab:problem1i}}
+\vspace{-10pt}
+\renewcommand{\arraystretch}{1.5}
+\begin{center}
+\begin{tabular}{r|ccccccccccccccc}
+ & \begin{sideways}
+C. Dickens
+\end{sideways} & \begin{sideways}
+E. Bronte
+\end{sideways} & \begin{sideways}
+A. Bronte
+\end{sideways} & \begin{sideways}
+C. Bronte
+\end{sideways} & \begin{sideways}
+E. R. Burroughs~
+\end{sideways} & \begin{sideways}
+H. R. Haggard
+\end{sideways} & \begin{sideways}
+J. Cleland
+\end{sideways} & \begin{sideways}
+L. Carroll
+\end{sideways} & \begin{sideways}
+W. Irving
+\end{sideways} & \begin{sideways}
+Sir A. C. Doyle
+\end{sideways} & \begin{sideways}
+M. Twain
+\end{sideways} & \begin{sideways}
+N. Machiavelli
+\end{sideways} & \begin{sideways}
+H. G. Wells
+\end{sideways} & \begin{sideways}
+F. Kafka
+\end{sideways} & \begin{sideways}
+R. Kipling
+\end{sideways}\tabularnewline
+\hline 
+C. Dickens & $-$ & 0.52 & 0.48 & 0.41 & 0.46 & 0.47 & 0.60 & 0.79 & 0.60 & \textbf{0.34} & 0.49 & 0.67 & 0.55 & 0.56 & 0.64 \\
+E. Bronte & 0.52 & $-$ & 0.41 & \textbf{0.37} & 0.56 & 0.63 & 0.62 & 0.75 & 0.73 & 0.52 & 0.60 & 0.76 & 0.64 & 0.63 & 0.79 \\
+A. Bronte & 0.48 & 0.41 & $-$ & \textbf{0.37} & 0.56 & 0.54 & 0.51 & 0.72 & 0.70 & 0.49 & 0.53 & 0.66 & 0.60 & 0.53 & 0.77 \\
+C. Bronte & 0.41 & \textbf{0.37} & \textbf{0.37} & $-$ & 0.48 & 0.49 & 0.53 & 0.81 & 0.67 & \textbf{0.37} & 0.51 & 0.70 & 0.54 & 0.60 & 0.73 \\
+E. R. Burroughs & 0.46 & 0.56 & 0.56 & 0.48 & $-$ & 0.43 & 0.59 & 0.85 & 0.58 & \textbf{0.35} & 0.54 & 0.69 & 0.44 & 0.65 & 0.67 \\
+H. R. Haggard & 0.47 & 0.63 & 0.54 & 0.49 & 0.43 & $-$ & 0.65 & 0.78 & 0.59 & \textbf{0.39} & 0.42 & 0.70 & 0.47 & 0.66 & 0.60 \\
+J. Cleland & 0.60 & 0.62 & \textbf{0.51} & 0.53 & 0.59 & 0.65 & $-$ & 0.96 & 0.65 & 0.58 & 0.73 & 0.64 & 0.64 & 0.74 & 0.87 \\
+L. Carroll & 0.79 & 0.75 & 0.72 & 0.81 & 0.85 & 0.78 & 0.96 & $-$ & 1.00 & 0.81 & \textbf{0.66} & 1.00 & 0.87 & 0.73 & 0.83 \\
+W. Irving & 0.60 & 0.73 & 0.70 & 0.67 & \textbf{0.58} & 0.59 & 0.65 & 1.00 & $-$ & 0.60 & 0.73 & 0.72 & \textbf{0.58} & 0.79 & 0.84 \\
+Sir A. C. Doyle & \textbf{0.34} & 0.52 & 0.49 & 0.37 & 0.35 & 0.39 & 0.58 & 0.81 & 0.60 & $-$ & 0.48 & 0.67 & 0.46 & 0.53 & 0.65 \\
+M. Twain & 0.49 & 0.60 & 0.53 & 0.51 & 0.54 & \textbf{0.42} & 0.73 & 0.66 & 0.73 & 0.48 & $-$ & 0.81 & 0.57 & 0.56 & 0.56 \\
+N. Machiavelli & 0.67 & 0.76 & 0.66 & 0.70 & 0.69 & 0.70 & \textbf{0.64} & 1.00 & 0.72 & 0.67 & 0.81 & $-$ & 0.76 & 0.78 & 0.93 \\
+H. G. Wells & 0.55 & 0.64 & 0.60 & 0.54 & \textbf{0.44} & 0.47 & 0.64 & 0.87 & 0.58 & 0.46 & 0.57 & 0.76 & $-$ & 0.71 & 0.70 \\
+F. Kafka & 0.56 & 0.63 & \textbf{0.53} & 0.60 & 0.65 & 0.66 & 0.74 & 0.73 & 0.79 & \textbf{0.53} & 0.56 & 0.78 & 0.71 & $-$ & 0.75 \\
+R. Kipling & 0.64 & 0.79 & 0.77 & 0.73 & 0.67 & 0.60 & 0.87 & 0.83 & 0.84 & 0.65 & \textbf{0.56} & 0.93 & 0.70 & 0.75 & $-$ \\
+\end{tabular}
+\end{center}
+\end{table*} 
 
 
 \section{Conclusions}
