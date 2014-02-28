@@ -18,7 +18,7 @@ training_corpus = {
     'F. Kafka': ('books/the_trial.txt', )
 }
 
-test_corpus = {
+testing_corpus = {
     'C. Dickens': 'books/christmas_carol.txt',
     'E. R. Burroughs': 'books/tarzan_of_the_apes.txt',
     'L. Carroll': 'books/alices_adventures_in_wonderland.txt',
@@ -28,14 +28,14 @@ test_corpus = {
     'F. Kafka': 'books/metamorphosis.txt'
 }
 
-for profile_len in (10, 30, 50):
+for profile_len in (10, 100, 500):
     # Build the author's profiles database.
     profiles = {}
     for author, book_paths in training_corpus.iteritems():
         freq_tab = compute_freq_tab(3, *book_paths)
         profiles[author] = cng_profile(freq_tab, profile_len)
     # Predict the authors of the books in the test corpus.
-    for author, book_path in test_corpus.iteritems():
+    for author, book_path in testing_corpus.iteritems():
         freq_tab = compute_freq_tab(3, book_path)
         profile = cng_profile(freq_tab, profile_len)
         # Assign the closest profile from the database.
