@@ -38,6 +38,7 @@ Electrical Engineering \& Computer Science, York University, Canada.
 
 \section{Solutions}
 
+
 \subsection{Problem 1a}
 
 \begin{quote}
@@ -225,7 +226,7 @@ or use an equivalent means to reduce the number of keys on the typewriters.''
 
 \codefile{problem1d.py}
 
-Fig.~\ref{fig:problem1d} shows the results of the study.
+Figure~\ref{fig:problem1d} shows the results of the study.
 
 \begin{figure}[!t]
 \centering
@@ -249,7 +250,7 @@ Figs.~\ref{fig:agnes_grey_2nd_order} and~\ref{fig:agnes_grey_3rd_order} show the
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3.4in]{agnes_grey_2nd_order}
-\caption{Second-order correlation matrix built from A.~Bronte's `Agnes Grey'.}
+\caption{Second-order correlation matrix built from A.~Bronte's ``Agnes Grey''.}
 \label{fig:agnes_grey_2nd_order}
 \end{figure}
 
@@ -257,11 +258,12 @@ Figs.~\ref{fig:agnes_grey_2nd_order} and~\ref{fig:agnes_grey_3rd_order} show the
 \centering
 \includegraphics[width=0.9\textwidth]{agnes_grey_3rd_order}
 \caption{Selected entries of the third-order correlation matrix built from 
-A.~Bronte's `Agnes Grey'. From left to right and top to bottom, the 
+A.~Bronte's ``Agnes Grey''. From left to right and top to bottom, the 
 panels correspond to trigraphs beginning with the characters space, \codeinline{a},
 \codeinline{e}, \codeinline{h}, \codeinline{i}, and \codeinline{t}, respectively.}
 \label{fig:agnes_grey_3rd_order}
 \end{figure*}
+
 
 \subsection{Problem 1f}
 
@@ -274,11 +276,11 @@ that given in the handout for Poe's `The Gold Bug'''.
 
 \codefile{problem1f.py}
 
-The book `Legend of Sleepy Hollow' by W. Irving (book number 14 in Table~\ref{tab:data}).
+The book ``Legend of Sleepy Hollow'' by W. Irving (book number 14 in Table~\ref{tab:data}).
 The most probable digraph is \codeinline{the andis,@wofry."bulmpk!-cq} and the 
 trigraph \codeinline{the somplack,@}.
 
-The most probable digraph path in Poe's `The Gold Bug' is: \codeinline{the andisouryplf'bj}.
+The most probable digraph path in Poe's ``The Gold Bug'' is: \codeinline{the andisouryplf'bj}.
 
 \begin{table}
 \caption{\hspace{2em}Most probable digraph (beginning with `t') and \newline 
@@ -320,7 +322,46 @@ that might be used to perform author attribution. Discuss your solution and prov
 why it is likely or not likely to solve the problem definitively.''
 \end{quote}
 
+The authors with more than one book listed in Table~\ref{tab:data} 
+-- i.e. C. Dickens, E. R. Burroughs, L. Carroll, Sir A. C. Doyle, M. Twain, 
+H. G. Wells, and F. Kafka -- were selected for the experiment and divided 
+into two training/testing groups. A CNG profile was built for each author using 
+all the books except the first one -- e.g. M. Twain's profile was built using 
+`The Adventures of Tom Sawyer' and ``A Connecticut Yankee in King Arthur's Court''. 
+Then, the first book by each author -- e.g. M. Twain's ``Adventures of Huckleberry Finn'' 
+-- was considered for author prediction. The following Python code implements 
+this experimental procedure:
+
 \codefile{problem1g.py}
+
+The results are shown in Table~\ref{tab:problem1g}.
+
+
+\begin{table}
+\caption{\hspace{1.4em}Results of the author attribution experiment using \newline
+values of the GNG profile length $L\in\{10,100,500\}$.\label{tab:problem1g}}
+\vspace{-10pt}
+\begin{center}
+\begin{tabular}{lr@{\hspace{1em}}r@{\hspace{1em}}r}
+\hline 
+\multirow{2}{*}{Correct Author} & \multicolumn{3}{c}{Predicted Author}\tabularnewline
+\cline{2-4} 
+ & $L=10$ & $L=100$ & $L=500$\tabularnewline
+\hline
+C. Dickens & C. Dickens & C. Dickens & C. Dickens \\
+E. R. Burroughs & E. R. Burroughs & E. R. Burroughs & E. R. Burroughs \\
+L. Carroll & M. Twain & L. Carroll & L. Carroll \\
+Sir A. C. Doyle & M. Twain & Sir A. C. Doyle & Sir A. C. Doyle \\
+M. Twain & M. Twain & M. Twain & M. Twain \\
+H. G. Wells & C. Dickens & E. R. Burroughs & H. G. Wells \\
+F. Kafka & F. Kafka & F. Kafka & F. Kafka \\
+\hline
+Prediction Rate & 57.14\% & 85.71\% & 100.00\%\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+    
 
 \subsection{Problem 1h}
 
