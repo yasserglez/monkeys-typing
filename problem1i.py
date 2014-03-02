@@ -1,4 +1,5 @@
 from itertools import combinations
+
 from monkeys import compute_freq_tab, cng_profile, cng_dissimilarity
 
 corpus = {
@@ -45,7 +46,7 @@ for author, book_paths in corpus.iteritems():
     profiles[author] = cng_profile(freq_tab, 500)
 
 # Compute the pairwise dissimilarities.
-for author1, author2 in combinations(profiles.iterkeys(), 2):
-    profile1, profile2 = profiles[author1], profiles[author2]
-    dissim = cng_dissimilarity(profile1, profile2)
-    print '%s,%s,%s' % (author1, author2, dissim)
+for author_i, author_j in combinations(profiles.iterkeys(), 2):
+    profile_i, profile_j = profiles[author_i], profiles[author_j]
+    dissim = cng_dissimilarity(profile_i, profile_j)
+    print '%s,%s,%s' % (author_i, author_j, dissim)
