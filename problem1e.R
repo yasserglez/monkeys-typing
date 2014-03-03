@@ -45,7 +45,7 @@ agnes_grey_3rd_order <- fromJSON(file = "agnes_grey_3rd_order.json")
 max_3rd_order <- max(unlist(agnes_grey_3rd_order))
 data <- matrix(NA, num_chars^3, 4)
 n <- 1
-first_chars <- c(1, 15, 19, 22, 23, 34)
+first_chars <- c(1, 15, 34)
 for (i in first_chars) {
   for (j in seq(length = num_chars)) {
     for (k in seq(length = num_chars)) {
@@ -61,9 +61,9 @@ data <- as.data.frame(data)
 colnames(data) <- c("c1", "c2", "c3", "Freq")
 data <- as.data.frame.table(xtabs(Freq ~ c1 + c2 + c3, data))
 
-trellis.device(device = pdf, color = FALSE, width = 15, height = 11.7,
+trellis.device(device = pdf, color = FALSE, width = 2.5 * 7, height = 7,
               file = "agnes_grey_3rd_order.pdf")
-plot <- levelplot(Freq ~ c3 * c2 | factor(c1, levels = first_chars, labels = sapply(first_chars, index2char)), data,
+plot <- levelplot(Freq ~ c3 * c2 | factor(c1, levels = first_chars, labels = c("space", "a", "t")), data,
           xlab = "3rd Character", ylab = "2nd Character",
           scales = list(x = list(labels = char_labels),
                         y = list(labels = char_labels)),
@@ -73,5 +73,5 @@ plot <- levelplot(Freq ~ c3 * c2 | factor(c1, levels = first_chars, labels = sap
             panel.levelplot(...) 
             panel.grid(num_chars - 1, num_chars - 1, col.line = "white")
           })
-print(plot[c(4,5,6,1,2,3)])
+print(plot[c(1,2,3)])
 dev.off()
