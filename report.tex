@@ -2,7 +2,6 @@
 
 \usepackage{verbatim}
 \usepackage{framed}
-\usepackage{url}
 \usepackage{flushend}
 \usepackage{multirow}
 \usepackage{graphicx}
@@ -26,18 +25,48 @@
 
 
 \begin{abstract}
-Solutions to the second assignment of the course CSE6339 3.0 Introduction to 
-Computational Linguistics. Instructor: Prof. Nick Cercone, Department of 
-Electrical Engineering \& Computer Science, York University, Canada.
+Solutions to the second assignment of the course CSE6339 3.0 Introduction to Computational Linguistics. 
+Instructor: Prof. Nick Cercone, Department of Electrical Engineering \& Computer Science, York University, Canada.
 \end{abstract}
 
 \section{Introduction}
 
+The motivation for the assignment is illustrated in the following statement.
+``If enough monkeys were allowed to pound away at typewriters for enough time, all the great works of literature would result''~\cite{Bennett1976}.
+The typist monkeys in question represent a device -- in the assignment, a computer program -- capable of generating a random sequence of characters.
 
-\section{Program Documentation}
+Computer simulation programs of different complexity are used, ranging from zero-order monkeys -- that generate all characters independently and with the same probability -- to programs using statistics of order greater than zero computed from document samples.
+The output of the programs is compared to the content of the literary work they are trying to reproduce in order to evaluate their performance.
+The statistics computed from the document samples are also used to perform author attribution and genre classification tasks.
+
+The remainder of the report is organized as follows.
+Firstly, Section~\ref{sec:documentation} describes the implementation of the programs created for the assignment.
+Then, Section~\ref{sec:solutions} continues with the actual solutions to the nine problems.
+Lastly, Section~\ref{sec:conclusions} summarizes the results and provides some concluding remarks.
 
 
-\section{Solutions}
+\section{Program Documentation\label{sec:documentation}}
+
+% To make this assignment uniform across all students, we first we will have to decide how many characters we really
+% need. Let us ignore the distinction between upper and lower case so count 26 alphabetic characters, the 12
+% punctuation marks comma “,”, period “.”, semicolon “;”, colon “:”, question mark “?”, explanation mark “!”, parentheses
+% “(“ and “)”, hyphen “-”, single quote “ʻ”, double quote “““, and everything else “@”, and count any number as “#”, and
+% the blank for a total of 40 characters.
+
+% (a) Representation and Data Structures
+% (b) Algorithms and Analysis
+%   (i) statement of algorithms & alternatives
+%   (ii) informal analysis of algorithms
+% (c) How to use program/system plus sample session
+
+% The full source code of the Python module~\codeinline{monkeys.py} is included in an appendix at the end of this report.
+% In the implementation I have tried to keep external dependencies at minimum, relying only on the Python Standard Library.
+
+
+\section{Solutions\label{sec:solutions}}
+
+% (a) Readable listing of program, Programming style
+% (b) Some sample outputs illustrating testing techniques
 
 
 \subsection{Problem 1a}
@@ -456,7 +485,10 @@ R. Kipling & 0.64 & 0.79 & 0.77 & 0.73 & 0.67 & 0.60 & 0.87 & 0.83 & 0.84 & 0.65
 \end{table*} 
 
 
-\section{Conclusions}
+\section{Conclusions\label{sec:conclusions}}
+
+% The Python source code of the programs implemented for the assignment is available at the git repository \codeinline{https://github.com/ygf/monkeys-typing}.
+% The repository also contains the \LaTeX~code for this document, and the R~scripts and data files to produce the accompanying figures.
 
 
 \bibliographystyle{IEEEtran}
