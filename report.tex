@@ -35,9 +35,9 @@ The motivation for the assignment is illustrated in the following statement.
 ``If enough monkeys were allowed to pound away at typewriters for enough time, all the great works of literature would result''~\cite{Bennett1976}.
 The typist monkeys in question represent a device -- in the assignment, a computer program -- capable of generating a random sequence of characters.
 
-Computer simulation programs of different complexity are used, ranging from zero-order monkeys -- that generate all characters independently and with the same probability -- to programs using statistics of order greater than zero computed from document samples.
+Computer simulation programs of different complexity are used, ranging from zero-order monkeys -- that generate all characters independently and with the same probability -- to programs using statistics of order greater than zero computed from writing samples.
 The output of the programs is compared to the content of the literary work they are trying to reproduce in order to evaluate their performance.
-The statistics computed from the document samples are also used to perform author attribution and genre classification tasks.
+The statistics computed from the writing samples are also used to perform author attribution and genre classification tasks.
 
 The remainder of the report is organized as follows.
 Firstly, Section~\ref{sec:documentation} describes the implementation of the programs created for the assignment.
@@ -46,6 +46,39 @@ Lastly, Section~\ref{sec:conclusions} summarizes the results and provides some c
 
 
 \section{Program Documentation\label{sec:documentation}}
+
+\subsection{Preprocessing}
+
+% map_input_char, char2index, index2char
+
+\subsection{N-Gram Frequency Tables}
+
+\subsubsection{Representation}
+
+% how to store it
+
+% compute_freq_tab, write_freq_tab, read_freq_tab
+
+\subsubsection{Most Probable Paths}
+
+% most_probable_freq_tab_path
+
+\subsubsection{Reducing the Resolution}
+
+% reduce_freq_tab_resolution
+
+\subsubsection{Simulation}
+
+% simulate_freq_tab
+
+\subsection{Evaluating the Output}
+
+% relative_word_yield
+
+\subsection{Writing Sample Profiles}
+
+% cng_profile, cng_dissimilarity
+
 
 % To make this assignment uniform across all students, we first we will have to decide how many characters we really
 % need. Let us ignore the distinction between upper and lower case so count 26 alphabetic characters, the 12
