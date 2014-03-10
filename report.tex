@@ -55,7 +55,18 @@ The complete source code of the module is included in an appendix at the end of 
 
 \subsection{Preprocessing}
 
-% map_input_char, char2index, index2char
+The distinction between upper and lower case characters is ignored in the assignment.
+A total number of 40~different characters is considered: 
+26~alphabetic characters folded to lower case (\codeinline{a}, \codeinline{b}, \codeinline{c}, \ldots, \codeinline{z}), 
+13~punctuation marks (space, \codeinline{,}, \codeinline{.}, \codeinline{;}, \codeinline{:}, \codeinline{?}, \codeinline{!}, \codeinline{(}, \codeinline{)}, \codeinline{-}, \codeinline{'}, \codeinline{"}, \codeinline{@}),
+and any digit (\codeinline{0}--\codeinline{9}) is counted as~\codeinline{\#}.
+The \codeinline{map\_input\_char} function maps any input character in a writing sample to the characters considered in the assignment.
+A character that do not appear among the 40~characters is mapped to~\codeinline{@} (in addition to~\codeinline{@} itself).
+
+Additionally, an integer between 0 and 39 is assigned to each one of the 40~characters following the ASCII order
+-- i.e. space~gets~0, \codeinline{!}~gets~1, \codeinline{"}~gets~2, \ldots, and \codeinline{z}~gets~39.
+The functions \codeinline{char2index} and \codeinline{index2char} return the index corresponding to a given character and vice versa.
+These indexes identify the dimensions of the frequency tables presented next in this section.
 
 \subsection{N-Gram Frequency Tables}
 
@@ -84,13 +95,6 @@ The complete source code of the module is included in an appendix at the end of 
 \subsection{Writing Sample Profiles}
 
 % cng_profile, cng_dissimilarity
-
-
-% To make this assignment uniform across all students, we first we will have to decide how many characters we really
-% need. Let us ignore the distinction between upper and lower case so count 26 alphabetic characters, the 12
-% punctuation marks comma “,”, period “.”, semicolon “;”, colon “:”, question mark “?”, explanation mark “!”, parentheses
-% “(“ and “)”, hyphen “-”, single quote “ʻ”, double quote “““, and everything else “@”, and count any number as “#”, and
-% the blank for a total of 40 characters.
 
 % (a) Representation and Data Structures
 % (b) Algorithms and Analysis
