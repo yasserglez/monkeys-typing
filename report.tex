@@ -81,9 +81,12 @@ This section discusses how these frequency tables can be represented in order to
 % compute_freq_tab, write_freq_tab, read_freq_tab
 
 \vspace{0.5em}
-\subsubsection{Most Probable Paths}
+\subsubsection{Most Probable Path}
 
-% most_probable_freq_tab_path
+A procedure to compute the most probable path in a second-order frequency table is described in the handout~\cite{Bennett1976}.
+The function \codeinline{most\_probable\_freq\_tab\_path} implements a straightforward generalization of this algorithm for $n$-grams with $n\geq2$.
+Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the $n$-gram with the highest frequency at the end of the path.
+The algorithm stops when all characters are already included in the path or an $n$-gram prefix with zero occurences is encountered.
 
 \vspace{0.5em}
 \subsubsection{Reducing the Resolution}
@@ -117,6 +120,7 @@ This section discusses how these frequency tables can be represented in order to
 
 
 \subsection{Problem 1a}
+\label{sec:problem1}
 
 \begin{quote}
 ``Simulate the straightforward monkey problem. Let the program run long enough to 
@@ -152,6 +156,7 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 
 
 \subsection{Problem 1b}
+\label{sec:problem1b}
 
 \begin{quote}
 ``Use the data in Table~\ref{tab:hamlet} to simulate the first-order monkey problem. 
@@ -209,6 +214,7 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 
 
 \subsection{Problem 1c}
+\label{sec:problem1c}
 
 \begin{quote}
 ``Use the data supplied, data listed in Table~\ref{tab:data}, to simulate the 
@@ -291,6 +297,7 @@ third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
 
 
 \subsection{Problem 1d}
+\label{sec:problem1d}
 
 \begin{quote}
 ``Investigate the effects of resolution on monkey literacy in the simulation. 
@@ -314,6 +321,7 @@ Fig.~\ref{fig:problem1d} shows the results of the study.
 
 
 \subsection{Problem 1e}
+\label{sec:problem1e}
 
 \begin{quote}
 ``Write a routine to compute correlation matrices of the type shown in the 
@@ -341,6 +349,7 @@ A.~Bronte's ``Agnes Grey''.}
 
 
 \subsection{Problem 1f}
+\label{sec:problem1f}
 
 \begin{quote}
 ``Using the algorithm in the handout~\cite{Bennett1976} with the pair-correlation matrix 
@@ -390,6 +399,7 @@ trigraph (beginning with `th') paths.\label{tab:problem1f}}
 
 
 \subsection{Problem 1g}
+\label{sec:problem1g}
 
 \begin{quote}
 ``Design and implement an experiment using data from the books shown in Table~\ref{tab:data}
@@ -439,6 +449,7 @@ Prediction Rate & 57.14\% & 85.71\% & 100.00\%\\
     
 
 \subsection{Problem 1h}
+\label{sec:problem1h}
 
 \begin{quote}
 ``Can you develop a metric based on what you have done so far to classify the stories, e.g., 
@@ -461,6 +472,7 @@ according to the CNG dissimilarity.}
 \end{figure*}
 
 \subsection{Problem 1i}
+\label{sec:problem1i}
 
 \begin{quote}
 ``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide 
