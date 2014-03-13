@@ -75,27 +75,27 @@ These indexes identify the entries of the frequency tables presented next in thi
 
 \subsection{N-Gram Frequency Tables}
 
-Solving the problems in the assignment requires counting the occurences of all the character $n$-grams appearing in a writing sample.
+Solving the problems in the assignment requires counting the occurences of all the character \mbox{\mbox{$n$-gram}s} appearing in a writing sample.
 This section discusses how this information can be represented and the different operations that are needed.
 
 \vspace{0.5em}
 \subsubsection{Representation}
 
-The most important data structure in the assignment is the $n$-gram frequency table, hereafter denoted by~$T$.
+The most important data structure in the assignment is the \mbox{$n$-gram} frequency table, hereafter denoted by~$T$.
 This table contains the frequency counts of every combination of $n$~characters over the alphabet of $m=40$ possible characters.
-A particular entry $T_{c_1,\ldots,c_n}$ in the table can be identified by the indexes $c_1,\ldots,c_n \in [0,m-1]$ of the $n$-gram characters.
-Also, if we follow the analogy of monkeys at typewriters, the entries $T_{c_1,\ldots,c_{n-1},k}, k=0,\ldots,m-1$ determine the layout of the typewriter corresponding to the $n$-gram prefix $c_1,\ldots,c_{n-1}$.
+A particular entry $T_{c_1,\ldots,c_n}$ in the table can be identified by the indexes $c_1,\ldots,c_n \in [0,m-1]$ of the \mbox{$n$-gram} characters.
+Also, if we follow the analogy of monkeys at typewriters, the entries $T_{c_1,\ldots,c_{n-1},k}, k=0,\ldots,m-1$ determine the layout of the typewriter corresponding to the \mbox{$n$-gram} prefix $c_1,\ldots,c_{n-1}$.
 
 A table~$T$ is represented as a Python nested list with $n$~levels and $m$~entries per level.
 This data structure is equivalent to a multidimensional $n \times m$ array, since Python lists are implemented as arrays of pointers in CPython.
 This array-based representation guarantees O(1) read/write access to any particular entry in the table.
 Based on this structure, the function \codeinline{compute\_freq\_tab} builds a frequency table of the specified order from a writing sample given as a collection of plain-text files.
 
-One drawback of the array-based representation is that the table may contain many zero entries corresponding to $n$-grams that never appeared on the writing sample.
-A more memory-efficient implementation could have been based on a hash table (i.e. a Python dictionary) that stores only the $n$-grams with nonzero frequencies.
-Nevertheless, since only a maximum of third-order $n$-grams are considered in the assignment, the more explicit array-based representation was preferred.
+One drawback of the array-based representation is that the table may contain many zero entries corresponding to \mbox{\mbox{$n$-gram}s} that never appeared on the writing sample.
+A more memory-efficient implementation could have been based on a hash table (i.e. a Python dictionary) that stores only the \mbox{\mbox{$n$-gram}s} with nonzero frequencies.
+Nevertheless, since only a maximum of third-order \mbox{\mbox{$n$-gram}s} are considered in the assignment, the more explicit array-based representation was preferred.
 The more compact representation is however used to save the frequency tables to files on disk.
-The function \codeinline{write\_freq\_tab} saves a mapping of the $n$-gram with nonzero frequencies as a JSON dictionary.
+The function \codeinline{write\_freq\_tab} saves a mapping of the \mbox{$n$-gram} with nonzero frequencies as a JSON dictionary.
 Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table from a file in JSON format.
 
 
@@ -103,9 +103,9 @@ Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table 
 \subsubsection{Most Probable Path}
 
 Problem~1f (see Section~\ref{sec:problem1f}) requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
-The function \codeinline{most\_probable\_freq\_tab\_path} implements a straightforward generalization of this algorithm for $n$-grams with $n\geq2$.
-Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the $n$-gram with the highest frequency at the end of the path.
-The algorithm stops when all characters are already included in the path or an $n$-gram prefix with zero occurrences is found.
+The function \codeinline{most\_probable\_freq\_tab\_path} implements a straightforward generalization of this algorithm for \mbox{\mbox{$n$-gram}s} with $n\geq2$.
+Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the \mbox{$n$-gram} with the highest frequency at the end of the path.
+The algorithm stops when all characters are already included in the path or an \mbox{$n$-gram} prefix with zero occurrences is found.
 
 \vspace{0.5em}
 \subsubsection{Reducing the Resolution}
@@ -127,11 +127,11 @@ This method tries to preserve the relative proportions between frequencies that 
 The function \codeinline{simulate\_freq\_tab} samples a number of characters following the distribution encoded in the frequency table.
 If the argument corresponding to the frequency table is \codeinline{None}, the (zero-order) straightforward monkey problem is simulated.
 For a frequency table of order~$n$, the first~$n-1$ characters are always sampled uniformly.
-Also, a character is sampled uniformly if all the entries in the frequency table for the current $n$-gram prefix have zero frequencies in order to always satisfy the required number of characters.
+Also, a character is sampled uniformly if all the entries in the frequency table for the current \mbox{$n$-gram} prefix have zero frequencies in order to always satisfy the required number of characters.
 The resulting string of characters is written to a plain-text output file.
 
-The auxiliary function \codeinline{\_freq\_tab\_sample} is called from \codeinline{simulate\_freq\_tab} and it is responsible for sampling a single character given an $n$-gram prefix of $n-1$ characters.
-The code in \codeinline{\_freq\_tab\_sample} first computes the list of cumulative frequencies for the entries corresponding to the $n$-gram prefix.
+The auxiliary function \codeinline{\_freq\_tab\_sample} is called from \codeinline{simulate\_freq\_tab} and it is responsible for sampling a single character given an \mbox{$n$-gram} prefix of $n-1$ characters.
+The code in \codeinline{\_freq\_tab\_sample} first computes the list of cumulative frequencies for the entries corresponding to the \mbox{$n$-gram} prefix.
 Then, an integer between zero and the cumulative sum of frequencies is sampled and its position in the cumulative list of frequencies determines the character to be returned.
 Since the position of the can be determined in O($\log m$) using a bisection algorithm, the running-time for sampling a single character is O($m$) 
 -- i.e. it is dominated by the computation of the cumulative frequencies.
@@ -150,9 +150,9 @@ In order to get a reasonable estimation of the performance measure, the simulate
 
 The solutions to Problems 1g, 1h, and 1i use a technique called Common N-Gram (CNG) profiles~\cite{Keselj2003} to discover similarities between authors, and to perform author attribution and genre classification.
 The function \codeinline{cng\_profile} builds a CNG profile of the specified length $L$ from a given frequency table.
-A Python dictionary is used to represent the profile, as a mapping of the $L$ most-frequent $n$-grams to their normalized frequencies.
+A Python dictionary is used to represent the profile, as a mapping of the $L$ most-frequent \mbox{\mbox{$n$-gram}s} to their normalized frequencies.
 Also, the function \codeinline{cng\_dissimilarity} computes a positive dissimilarity measure between two profiles.
-The function returns zero for texts with identical $L$ most-frequent $n$-grams.
+The function returns zero for texts with identical $L$ most-frequent \mbox{\mbox{$n$-gram}s}.
 For more information about the CNG profiles, please refer to the citation above.
 
 
