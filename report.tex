@@ -66,7 +66,7 @@ A character that do not appear among the 40~characters is mapped to~\codeinline{
 Additionally, an integer between 0 and 39 is assigned to each one of the 40~characters following the ASCII order
 -- i.e. space~gets~0, \codeinline{!}~gets~1, \codeinline{"}~gets~2, \ldots, and \codeinline{z}~gets~39.
 The functions \codeinline{char2index} and \codeinline{index2char} return the index corresponding to a given character and vice versa.
-These indexes identify the dimensions of the frequency tables presented next in this section.
+These indexes identify the entries of the frequency tables presented next in this section.
 
 \subsection{N-Gram Frequency Tables}
 
@@ -80,18 +80,31 @@ This section discusses how these frequency tables can be represented in order to
 
 % compute_freq_tab, write_freq_tab, read_freq_tab
 
+% typewriters analogy
+
+% complexity of common operations
+
 \vspace{0.5em}
 \subsubsection{Most Probable Path}
 
-A procedure to compute the most probable path in a second-order frequency table is described in the handout~\cite{Bennett1976}.
+Problem~1f (see Section~\ref{sec:problem1f}) requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
 The function \codeinline{most\_probable\_freq\_tab\_path} implements a straightforward generalization of this algorithm for $n$-grams with $n\geq2$.
 Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the $n$-gram with the highest frequency at the end of the path.
-The algorithm stops when all characters are already included in the path or an $n$-gram prefix with zero occurences is encountered.
+The algorithm stops when all characters are already included in the path or an $n$-gram prefix with zero occurrences is found.
 
 \vspace{0.5em}
 \subsubsection{Reducing the Resolution}
 
-% reduce_freq_tab_resolution
+For the solution of Problem~1d (see Section~\ref{sec:problem1d}), it is necessary a method to change the resolution of the frequency tables.
+The function \codeinline{reduce\_freq\_tab\_resolution} achieves this purpose by reducing the number of keys on the typewriters.
+If $F>0$ is the maximum frequency count in a table~$T$ of order~$n$, the entries of the reduced frequency table $T'$ are obtained as follows,
+
+$$T'_{c_1,\ldots,c_n} = \left\lfloor\frac{T_{c_1,\ldots,c_n}}{\alpha F}\right\rfloor,$$
+
+\noindent where $c_1,\ldots,c_n$ identify an entry in the table and $\alpha \in (0,1]$ is the reduction rate 
+-- i.e. all entries are normalized by a fraction of the maximum frequency.
+This method tries to preserve the relative proportions between frequencies that remain greater than zero after the transformation.
+
 
 \vspace{0.5em}
 \subsubsection{Simulation}

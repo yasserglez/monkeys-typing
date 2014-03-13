@@ -48,7 +48,7 @@ def compute_freq_tab(order, *corpus_files):
 
 # Reduce the resolution of the typewriter. All the freqs. are
 # divided by a percentage of the maximum freq. determined by the 
-# rate value in [0,1]. A modified copy of freq_tab is returned.
+# rate value in (0,1]. A modified copy of freq_tab is returned.
 def reduce_freq_tab_resolution(freq_tab, rate):
     order = _freq_tab_order(freq_tab)
     # Find the n-gram with the highest freq.
