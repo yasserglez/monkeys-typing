@@ -78,6 +78,8 @@ This section discusses how these frequency tables can be represented in order to
 
 % how to store it
 
+% define m and n
+
 % compute_freq_tab, write_freq_tab, read_freq_tab
 
 % typewriters analogy
@@ -109,7 +111,18 @@ This method tries to preserve the relative proportions between frequencies that 
 \vspace{0.5em}
 \subsubsection{Simulation}
 
-% simulate_freq_tab
+The function \codeinline{simulate\_freq\_tab} samples a number of characters following the distribution encoded in the frequency table.
+If the argument corresponding to the frequency table is \codeinline{None}, the (zero-order) straightforward monkey problem is simulated.
+For a frequency table of order~$n$, the first~$n-1$ characters are always sampled uniformly.
+Also, a character is sampled uniformly if all the entries in the frequency table for the current $n$-gram prefix have zero frequencies in order to always satisfy the required number of characters.
+The resulting string of characters is written to a plain-text output file.
+
+The auxiliary function \codeinline{\_freq\_tab\_sample} is called from \codeinline{simulate\_freq\_tab} and it is responsible for sampling a single character given an $n$-gram prefix of $n-1$ characters.
+The code in \codeinline{\_freq\_tab\_sample} first computes the list of cumulative frequencies for the entries corresponding to the $n$-gram prefix.
+Then, an integer between zero and the cumulative sum of frequencies is sampled and its position in the cumulative list of frequencies determines the character to be returned.
+Since the position of the can be determined in O($\log m$) using a bisection algorithm, the running-time for sampling a single character is O($m$) 
+-- i.e. it is dominated by the computation of the cumulative frequencies.
+
 
 \subsection{Evaluating the Output}
 
