@@ -58,6 +58,7 @@ In the code, external dependencies were kept at minimum by relying only on the P
 The rest of this section describes the most important data structures and algorithms used in \codeinline{monkeys.py}.
 The complete source code of the module is included in an appendix at the end of the report.
 
+
 \subsection{Preprocessing}
 
 The distinction between upper and lower case characters is ignored in the assignment.
@@ -72,6 +73,7 @@ Additionally, an integer between 0 and 39 is assigned to each one of the 40~char
 -- i.e. space~gets~0, \codeinline{!}~gets~1, \codeinline{"}~gets~2, \ldots, and \codeinline{z}~gets~39.
 The functions \codeinline{char2index} and \codeinline{index2char} return the index corresponding to a given character and vice versa.
 These indexes identify the entries of the frequency tables presented next in this section.
+
 
 \subsection{N-Gram Frequency Tables}
 
@@ -102,7 +104,7 @@ Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table 
 \vspace{0.5em}
 \subsubsection{Most Probable Path}
 
-Problem~1f (see Section~\ref{sec:problem1f}) requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
+Problem~1f requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
 The function \codeinline{most\_probable\_freq\_tab\_path} implements a straightforward generalization of this algorithm for \mbox{\mbox{$n$-gram}s} with $n\geq2$.
 Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the \mbox{$n$-gram} with the highest frequency at the end of the path.
 The algorithm stops when all characters are already included in the path or an \mbox{$n$-gram} prefix with zero occurrences is found.
@@ -110,7 +112,7 @@ The algorithm stops when all characters are already included in the path or an \
 \vspace{0.5em}
 \subsubsection{Reducing the Resolution}
 
-For the solution of Problem~1d (see Section~\ref{sec:problem1d}), it is necessary a method to change the resolution of the frequency tables.
+For the solution of Problem~1d, it is necessary a method to change the resolution of the frequency tables.
 The function \codeinline{reduce\_freq\_tab\_resolution} achieves this purpose by reducing the number of keys on the typewriters.
 If $F>0$ is the maximum frequency count in a table~$T$ of order~$n$, the entries of the reduced frequency table $T'$ are obtained as follows,
 
@@ -119,7 +121,6 @@ $$T'_{c_1,\ldots,c_n} = \left\lfloor\frac{T_{c_1,\ldots,c_n}}{\alpha F}\right\rf
 \noindent where $c_1,\ldots,c_n$ identify an entry in the table and $\alpha \in (0,1]$ is the reduction rate 
 -- i.e. all entries are normalized by a fraction of the maximum frequency.
 This method tries to preserve the relative proportions between frequencies that remain greater than zero after the transformation.
-
 
 \vspace{0.5em}
 \subsubsection{Simulation}
@@ -146,6 +147,7 @@ The relative world yield is defined as the number correct words in the simulated
 -- a word is considered correct if it appears in the book to be reproduced.
 In order to get a reasonable estimation of the performance measure, the simulated files contain ten times the number of characters in the book to be reproduced.
 
+
 \subsection{Writing Sample Profiles}
 
 The solutions to Problems 1g, 1h, and 1i use a technique called Common N-Gram (CNG) profiles~\cite{Keselj2003} to discover similarities between authors, and to perform author attribution and genre classification.
@@ -164,7 +166,6 @@ For more information about the CNG profiles, please refer to the citation above.
 
 
 \subsection{Problem 1a}
-\label{sec:problem1}
 
 \begin{quote}
 ``Simulate the straightforward monkey problem. Let the program run long enough to 
@@ -200,7 +201,6 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 
 
 \subsection{Problem 1b}
-\label{sec:problem1b}
 
 \begin{quote}
 ``Use the data in Table~\ref{tab:hamlet} to simulate the first-order monkey problem. 
@@ -258,7 +258,6 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 
 
 \subsection{Problem 1c}
-\label{sec:problem1c}
 
 \begin{quote}
 ``Use the data supplied, data listed in Table~\ref{tab:data}, to simulate the 
@@ -341,7 +340,6 @@ third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
 
 
 \subsection{Problem 1d}
-\label{sec:problem1d}
 
 \begin{quote}
 ``Investigate the effects of resolution on monkey literacy in the simulation. 
@@ -365,7 +363,6 @@ Fig.~\ref{fig:problem1d} shows the results of the study.
 
 
 \subsection{Problem 1e}
-\label{sec:problem1e}
 
 \begin{quote}
 ``Write a routine to compute correlation matrices of the type shown in the 
@@ -393,7 +390,6 @@ A.~Bronte's ``Agnes Grey''.}
 
 
 \subsection{Problem 1f}
-\label{sec:problem1f}
 
 \begin{quote}
 ``Using the algorithm in the handout~\cite{Bennett1976} with the pair-correlation matrix 
@@ -443,7 +439,6 @@ trigraph (beginning with `th') paths.\label{tab:problem1f}}
 
 
 \subsection{Problem 1g}
-\label{sec:problem1g}
 
 \begin{quote}
 ``Design and implement an experiment using data from the books shown in Table~\ref{tab:data}
@@ -493,7 +488,6 @@ Prediction Rate & 57.14\% & 85.71\% & 100.00\%\\
     
 
 \subsection{Problem 1h}
-\label{sec:problem1h}
 
 \begin{quote}
 ``Can you develop a metric based on what you have done so far to classify the stories, e.g., 
@@ -516,7 +510,6 @@ according to the CNG dissimilarity.}
 \end{figure*}
 
 \subsection{Problem 1i}
-\label{sec:problem1i}
 
 \begin{quote}
 ``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide 
