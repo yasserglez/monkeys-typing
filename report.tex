@@ -148,7 +148,12 @@ In order to get a reasonable estimation of the performance measure, the simulate
 
 \subsection{Writing Sample Profiles}
 
-% cng_profile, cng_dissimilarity
+The solutions to Problems 1g, 1h, and 1i use a technique called Common N-Gram (CNG) profiles~\cite{Keselj2003} to discover similarities between authors, and to perform author attribution and genre classification.
+The function \codeinline{cng\_profile} builds a CNG profile of the specified length $L$ from a given frequency table.
+A Python dictionary is used to represent the profile, as a mapping of the $L$ most-frequent $n$-grams to their normalized frequencies.
+Also, the function \codeinline{cng\_dissimilarity} computes a positive dissimilarity measure between two profiles.
+The function returns zero for texts with identical $L$ most-frequent $n$-grams.
+For more information about the CNG profiles, please refer to the citation above.
 
 
 \section{Solutions\label{sec:solutions}}
