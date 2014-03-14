@@ -285,7 +285,7 @@ The following Python code runs the simulation and computes the relative word yie
 \codefile{problem1b.py}
 
 Table~\ref{tab:problem1b} summarizes the results of the first-order monkey problem.
-In general, the performance is comparable to the straightforward monkey problem.
+In general, the performance is similar to the straightforward monkey problem.
 There are improvements on some of the books, but e.g. the results on books where the straightforward monkey simulation achieved values over 30\% are worst in this case.
 
 \begin{table}[htb]
@@ -314,19 +314,24 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 \subsection{Problem 1c}
 
 \begin{quote}
-``Use the data supplied, data listed in Table~\ref{tab:data}, to simulate the 
-second-order and third-order Bronte monkey problem. Again let the program run 
-long enough to give a meaningful estimate of the yield of words to permit 
-comparison with other results on relative word yield. Try running this 
-simulation program against other authors listed.''
+``Use the data supplied, data listed in Table~\ref{tab:data}, to simulate the second-order and third-order Bronte monkey problem. 
+Again let the program run long enough to give a meaningful estimate of the yield of words to permit comparison with other results on relative word yield. 
+Try running this simulation program against other authors listed.''
 \end{quote}
+\vspace{0.75em}
 
-...the books written by the Bronte sisters in Table~\ref{tab:data}
-(books numbered 3, 4, and 5).
+The three books written by the Bronte sisters listed in Table~\ref{tab:data} (books numbered 3, 4, and 5) are used together as the writing sample to build second and third order frequency tables.
+The following Python code runs the simulation and computes the relative word yield for every book in every case.
 
 \codefile{problem1c.py}
 
-\begin{table}
+Table~\ref{tab:problem1c} summarizes the results with the second and third order Bronte monkey problem.
+In this case the results are considerably better that previous results on every book, which illustrates the power of the higher-order statistics.
+The results with the third-order statistics are also consistently better than with the second-order statistics.
+The highest relative word yield is obtained for one of the Bronte books with 45.97\%.
+
+
+\begin{table}[htb]
 \caption{Relative word yield of the second-order (2nd) and 
 third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
 \vspace{-10pt}
