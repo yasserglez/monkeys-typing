@@ -478,27 +478,35 @@ trigraph (starting with \codeinline{th}) paths.\label{tab:problem1f}}
 \subsection{Problem 1g}
 
 \begin{quote}
-``Design and implement an experiment using data from the books shown in Table~\ref{tab:data}
-that might be used to perform author attribution. Discuss your solution and provide reasons 
-why it is likely or not likely to solve the problem definitively.''
+``Design and implement an experiment using data from the books shown in Table~\ref{tab:data} that might be used to perform author attribution. 
+Discuss your solution and provide reasons why it is likely or not likely to solve the problem definitively.''
 \end{quote}
+\vspace{0.75em}
 
 The authors with more than one book listed in Table~\ref{tab:data} 
--- i.e. C. Dickens, E. R. Burroughs, L. Carroll, Sir A. C. Doyle, M. Twain, 
-H. G. Wells, and F. Kafka -- were selected for the experiment and divided 
-into two training/testing groups. A CNG profile was built for each author using 
-all the books except the first one -- e.g. M. Twain's profile was built using 
-`The Adventures of Tom Sawyer' and ``A Connecticut Yankee in King Arthur's Court''. 
-Then, the first book by each author -- e.g. M. Twain's ``Adventures of Huckleberry Finn'' 
--- was considered for author prediction. The following Python code implements 
-this experimental procedure:
+-- i.e. C. Dickens, E. R. Burroughs, L. Carroll, Sir A. C. Doyle, M. Twain, H. G. Wells, and F. Kafka -- 
+were selected for the experiment and divided into two training/testing groups.
+Third-order frequency tables were built for each author using all the books except the first one 
+-- e.g. M. Twain's frequency table was built using ``The Adventures of Tom Sawyer'' and ``A Connecticut Yankee in King Arthur's Court''.
+Next, CNG profiles of three different lengths $L\in\{10,100,500\}$ were constructed for each author.
+Finally, the first book by each author 
+-- e.g. M. Twain's ``Adventures of Huckleberry Finn'' -- 
+was considered for author prediction. 
+The following Python code implements this experimental procedure.
 
 \codefile{problem1g.py}
 
-The results are shown in Table~\ref{tab:problem1g}.
+The results of the experiment are summarized in Table~\ref{tab:problem1g}.
+It is very interesting to see that using only the 10~most frequent \mbox{$n$-grams} is enough to predict more than 50\% of the authors correctly.
+The success rate increases with larger values of~$L$, and for $L=500$ a perfect success rate is achieved.
+
+Although outstanding prediction results were obtained with $L=500$, I believe this approach is not likely to solve the problem definitively.
+Some situations can be problematic for a prediction technique based solely on the most frequent \mbox{$n$-grams}.
+For example, authors could change their writting style during periods of their lives and this could affect the prediction, particularly if limited writing samples are available.
+Nonetheless, a combination of a CNG author profile with other techniques may be used in such situations.
 
 
-\begin{table}
+\begin{table}[htb]
 \caption{\hspace{1.4em}Results of the author attribution experiment using \newline
 values of the GNG profile length $L\in\{10,100,500\}$.\label{tab:problem1g}}
 \vspace{-10pt}
@@ -517,7 +525,7 @@ M. Twain & M. Twain & M. Twain & M. Twain \\
 H. G. Wells & C. Dickens & E. R. Burroughs & H. G. Wells \\
 F. Kafka & F. Kafka & F. Kafka & F. Kafka \\
 \hline
-Prediction Rate & 57.14\% & 85.71\% & 100.00\%\\
+Success Rate & 57.14\% & 85.71\% & 100.00\%\\
 \hline
 \end{tabular}
 \end{center}
