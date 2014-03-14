@@ -249,12 +249,12 @@ Book No. & Avg. Rate & Book No. & Avg. Rate \\
 
 \begin{quote}
 ``Use the data in Table~\ref{tab:hamlet} to simulate the first-order monkey problem. 
-Again let the program run long enough to give a meaningful estimate of the yield 
-of words to permit comparison with other results on relative word yield. Try running
-this simulation program against other corpora.''
+Again let the program run long enough to give a meaningful estimate of the yield of words to permit comparison with other results on relative word yield. 
+Try running this simulation program against other corpora.''
 \end{quote}
+\vspace{0.75em}
 
-\begin{table}
+\begin{table}[htb]
 \caption{\hspace{2em}Character Distribution from Act III of Hamlet. \newline
 Note: 35,224 characters, a small corpus.\label{tab:hamlet}}
 \vspace{-10pt}
@@ -277,9 +277,18 @@ i     & 1,736  & g     & 478   & z     & 14    \\
 \end{center}
 \end{table}
 
+The first-order frequency table given in Table~\ref{tab:hamlet} was typed into a file in JSON format.
+This file is loaded using the \codeinline{read\_freq\_tab} function and then the simulation is performed by calling \codeinline{simulate\_freq\_tab}.
+The same subset of the books from Problem~1a is used in order to make the results comparable.
+The following Python code runs the simulation and computes the relative word yield for every book.
+
 \codefile{problem1b.py}
 
-\begin{table}
+Table~\ref{tab:problem1b} summarizes the results of the first-order monkey problem.
+In general, the performance is comparable to the straightforward monkey problem.
+There are improvements on some of the books, but e.g. the results on books where the straightforward monkey simulation achieved values over 30\% are worst in this case.
+
+\begin{table}[htb]
 \caption{Relative word yield of the first-order monkey problem \newline
 with the character frequencies in Table~\ref{tab:hamlet}.\label{tab:problem1b}}
 \vspace{-10pt}
