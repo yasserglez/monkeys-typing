@@ -425,23 +425,27 @@ A.~Bronte's ``Agnes Grey''.}
 \subsection{Problem 1f}
 
 \begin{quote}
-``Using the algorithm in the handout~\cite{Bennett1976} with the pair-correlation matrix 
-generated from Irving (book shown in Table~\ref{tab:data}), compute the most 
-probable digraph path, which starts with the letter `t'. Compare the result with 
-that given in the handout for Poe's `The Gold Bug'''.
+``Using the algorithm in the handout~\cite{Bennett1976} with the pair-correlation matrix generated from Irving (book shown in Table~\ref{tab:data}), compute the most probable digraph path which starts with the letter \codeinline{t}.
+Compare the result with that given in the handout for Poe's `The Gold Bug'''.
 \end{quote}
+\vspace{0.75em}
+
+The most probable digraph path starting with the letter~\codeinline{t} is computed not only for W. Irving's ``Legend of Sleepy Hollow'' but also for the same subset of books used on Problem~1a.
+In addition, third-order frequency tables are built from the books and the most probable trigraph paths starting with the letters~\codeinline{th} are presented. 
+The following Python code computes the digraph and trigraph paths from the books.
 
 \codefile{problem1f.py}
 
-The book ``Legend of Sleepy Hollow'' by W. Irving (book number 14 in Table~\ref{tab:data}).
-The most probable digraph is \codeinline{the andis,@wofry."bulmpk!-cq} and the 
-trigraph \codeinline{the somplack,@}.
+Table~\ref{tab:problem1f} shows the digraphs and trigraph paths.
+The most probable digraph in W. Irving's ``Legend of Sleepy Hollow'' (book number 14) is \codeinline{the andis,@wofry."bulmpk!-cq} and the trigraph path is \codeinline{the somplack,@}.
+The most probable digraph path in Poe's ``The Gold Bug'' given in the handout is \codeinline{the andisouryplf'bj}.
+All these paths begin with the word \codeinline{the} followed by a space, which is also true for the rest of the paths.
+All the digraph paths continue with \codeinline{and} after the space, while some trigraph paths include words such as \codeinline{said} and \codeinline{was}.
+Common words such as \codeinline{is}, \codeinline{our}, \codeinline{or}, and \codeinline{of} are also visible.
 
-The most probable digraph path in Poe's ``The Gold Bug'' is: \codeinline{the andisouryplf'bj}.
-
-\begin{table}
-\caption{\hspace{2em}Most probable digraph (beginning with `t') and \newline 
-trigraph (beginning with `th') paths.\label{tab:problem1f}}
+\begin{table}[htb]
+\caption{\hspace{2em}Most probable digraph (starting with \codeinline{t}) and \newline 
+trigraph (starting with \codeinline{th}) paths.\label{tab:problem1f}}
 \vspace{-10pt}
 \begin{center}
 \begin{tabular}{cll}
