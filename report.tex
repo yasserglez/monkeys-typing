@@ -535,18 +535,19 @@ Success Rate & 57.14\% & 85.71\% & 100.00\%\\
 \subsection{Problem 1h}
 
 \begin{quote}
-``Can you develop a metric based on what you have done so far to classify the stories, e.g., 
-as mystery, romance, action/adventure, etc.? Implement your techniques to demonstrate 
-classification. Can the classification scheme you designed help with author attribution? 
-Can you say something about correlations among books written by the same author? 
+``Can you develop a metric based on what you have done so far to classify the stories, e.g., as mystery, romance, action/adventure, etc.? 
+Implement your techniques to demonstrate classification. 
+Can the classification scheme you designed help with author attribution?
+Can you say something about correlations among books written by the same author?
 Is there any relationship to the styles of the three Bronte sisters' works?''
 \end{quote}
+\vspace{0.75em}
 
 \codefile{problem1h.py}
 
 A dendrogram of the results is presented in Fig.~\ref{fig:problem1h}.
 
-\begin{figure*}[!t]
+\begin{figure*}[t]
 \centering
 \includegraphics[height=\textwidth,angle=270]{problem1h}
 \caption{Hierarchical cluster analysis of the data made available for the assignment
@@ -557,19 +558,24 @@ according to the CNG dissimilarity.}
 \subsection{Problem 1i}
 
 \begin{quote}
-``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide 
-a metric and argument that compares and contrasts authors in order to speculate which 
-two authors are the most `similar' in style.''
+``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide a metric and argument that compares and contrasts authors in order to speculate which two authors are the most `similar' in style.''
 \end{quote}
+\vspace{0.75em}
+
+A CNG profile was built for every author using the writing samples in Table~\ref{tab:data}.
+Based on the results obtained in Problems~1g and~1h, a third-order frequency table and a CNG profile length $L=500$ were used.
+The following Python code computes the CNG dissimilarity between every pair of authors.
 
 \codefile{problem1i.py}
 
-The CNG normalized dissimilarity matrix is presented in Table~\ref{tab:problem1i}.
+The normalized CNG dissimilarity matrix of the authors is presented in Table~\ref{tab:problem1i}.
+The minimum entries on each row are highlighted in bold numbers -- i.e. the most similar counterparts for each author.
+Overall, the most similar authors are Sir A. C. Doyle and C. Dickens with a normalized CNG dissimilarity of 0.34, and the relationship is symmetric.
+It is also noticeable that the Bronte sisters are very similar to each other according to the CNG dissimilarity measure.
+For each Bronte sister, the most similar author is always another sister.
 
-\begin{table*}
-
-\caption{\hspace{6em}Normalized CNG dissimilarity scores for every pair of authors. For each author, \newline
-the score corresponding to its most similar counterpart is highlighted bold.\label{tab:problem1i}}
+\begin{table*}[htb]
+\caption{Normalized CNG dissimilarity for every pair of authors.\label{tab:problem1i}}
 \vspace{-10pt}
 \renewcommand{\arraystretch}{1.5}
 \begin{center}
