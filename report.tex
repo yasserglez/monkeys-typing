@@ -203,6 +203,7 @@ No. & Author & Title & Chars. \\
 \end{center}
 \end{table}
 
+
 \subsection{Problem 1a}
 
 \begin{quote}
@@ -330,7 +331,6 @@ In this case the results are considerably better that previous results on every 
 The results with the third-order statistics are also consistently better than with the second-order statistics.
 The highest relative word yield is obtained for one of the Bronte books with 45.97\%.
 
-
 \begin{table}[htb]
 \caption{Relative word yield of the second-order (2nd) and 
 third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
@@ -361,23 +361,31 @@ third-order (3rd) Bronte monkey problem.\label{tab:problem1c}}
 
 \begin{quote}
 ``Investigate the effects of resolution on monkey literacy in the simulation. 
-For example round off the matrix elements to the smallest number of places --
-or use an equivalent means to reduce the number of keys on the typewriters.''
+For example round off the matrix elements to the smallest number of places 
+-- or use an equivalent means to reduce the number of keys on the typewriters.''
 \end{quote}
+\vspace{0.75em}
 
-...a book of medium size was selected among the books listed in Table~\ref{tab:data} 
-(book number 4).
+A book of medium size (book number 4) was selected among the books listed in Table~\ref{tab:data} to investigate the effect of resolution on the relative word yield.
+The study is performed for 11~equally spaced values of the reduction rate $\alpha$ in $[0,1]$ -- the argument of \codeinline{reduce\_freq\_tab\_resolution}.
+The effect is analyzed on first, second, and third order frequency tables.
+The following Python code collects the necessary data.
 
 \codefile{problem1d.py}
 
-Fig.~\ref{fig:problem1d} shows the results of the study.
-
-\begin{figure}[!t]
+\begin{figure}[!b]
 \centering
 \includegraphics[width=3.4in]{problem1d}
 \caption{Effect of resolution on monkey literacy.}
 \label{fig:problem1d}
 \end{figure}
+
+The output of the Python script was processed using R in order to generate the plot on Fig.~\ref{fig:problem1d}.
+On the first and second order frequency tables, reducing the resolution gradually increases the relative word yield up to around $\alpha=0.5$ and then it decays.
+On the other hand, the reduction of the resolution decreases the performance on the third-order frequency table for every value of $\alpha$.
+The normalization of the frequency table by a fraction of the maximum frequency zeroes entries with low frequencies that produce ``noise'' on the generated output.
+Therefore, the accuracy of the simulation increases -- possibly at the expense of less variability in the output.
+Because of the greater number of entries on the third-order frequency tables, the frequencies seem to be more evenly distributed and the reduction affects also the generation of correct words.
 
 
 \subsection{Problem 1e}
