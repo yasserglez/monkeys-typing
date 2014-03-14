@@ -383,7 +383,7 @@ The following Python code collects the necessary data.
 The output of the Python script was processed using R in order to generate the plot on Fig.~\ref{fig:problem1d}.
 On the first and second order frequency tables, reducing the resolution gradually increases the relative word yield up to around $\alpha=0.5$ and then it decays.
 On the other hand, the reduction of the resolution decreases the performance on the third-order frequency table for every value of $\alpha$.
-The normalization of the frequency table by a fraction of the maximum frequency zeroes entries with low frequencies that produce ``noise'' on the generated output.
+The integer division by a fraction of the maximum frequency zeroes entries with low frequencies that produce ``noise'' on the generated output.
 Therefore, the accuracy of the simulation increases -- possibly at the expense of less variability in the output.
 Because of the greater number of entries on the third-order frequency tables, the frequencies seem to be more evenly distributed and the reduction affects also the generation of correct words.
 
@@ -391,15 +391,22 @@ Because of the greater number of entries on the third-order frequency tables, th
 \subsection{Problem 1e}
 
 \begin{quote}
-``Write a routine to compute correlation matrices of the type shown in the 
-handout~\cite{Bennett1976} from data supplied (the books shown in Table~\ref{tab:data}).''
+``Write a routine to compute correlation matrices of the type shown in the handout~\cite{Bennett1976} from data supplied (the books shown in Table~\ref{tab:data}).''
 \end{quote}
+\vspace{0.75em}
+
+The same book number 4 used in the previous problem is used in this problem.
+The following Python code computes second and third order frequency tables from the book and save them to a file in JSON format.
 
 \codefile{problem1e.py}
 
-Figs.~\ref{fig:agnes_grey_2nd_order} and~\ref{fig:agnes_grey_3rd_order} show the results.
+The output is processed using R to generate a graphical representation of the normalized frequency tables similar to the ones showed in the handout~\cite{Bennett1976}.
+Fig.~\ref{fig:agnes_grey_2nd_order} shows the second-order correlation matrix. 
+Note the high frequency of the entires \codeinline{th}, \codeinline{he}, and \codeinline{e } corresponding to the article \codeinline{the}.
+Fig.~\ref{fig:agnes_grey_3rd_order} shows three selected entries of the third-order correlation matrix.
+The high frequency of the $n$-gram \codeinline{the} is also evident.
 
-\begin{figure}[!t]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=3.4in]{agnes_grey_2nd_order}
 \caption{Second-order correlation matrix built from A.~Bronte's ``Agnes Grey''.}
