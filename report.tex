@@ -77,7 +77,7 @@ These indexes identify the entries of the frequency tables presented next in thi
 
 \subsection{N-Gram Frequency Tables}
 
-Solving the problems in the assignment requires counting the occurences of all the character \mbox{\mbox{$n$-gram}s} appearing in a writing sample.
+Solving the problems in the assignment requires counting the occurrences of all the character \mbox{\mbox{$n$-gram}s} appearing in a writing sample.
 This section discusses how this information can be represented and the algorithms that work with this representation.
 
 \vspace{0.5em}
@@ -106,7 +106,7 @@ Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table 
 
 Problem~1f requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
 The function \codeinline{most\_probable\_freq\_tab\_path} implements a simple generalization of this algorithm for \mbox{\mbox{$n$-gram}s} with $n\geq2$.
-Given an $n$-th order frequency table and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the \mbox{$n$-gram} with the highest frequency at the end of the path.
+Given a frequency table of order $n$ and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the \mbox{$n$-gram} with the highest frequency at the end of the path.
 The algorithm stops when all characters are already included in the path or an \mbox{$n$-gram} prefix with zero occurrences is found.
 
 \vspace{0.5em}
@@ -160,7 +160,7 @@ For more information about the CNG profiles, please refer to the citation above.
 \section{Solutions\label{sec:solutions}}
 
 This section is divided into nine subsections, each one corresponding to one problem in the assignment.
-Table~\ref{tab:data} shows the document corpora made available for the assignment.
+Table~\ref{tab:data} shows the data made available for the assignment.
 
 \begin{table}[htb]
 \caption{Data made available for the assignment.\label{tab:data}}
@@ -220,9 +220,9 @@ The following Python code runs the simulation and computes the relative word yie
 
 Table~\ref{tab:problem1a} summarizes the results of the (zero-order) straightforward monkey problem.
 The results are surprisingly high for characters being generated with the same probability 
--- even values over 25\% were obtained for seven of the books.
+-- values over 25\% were obtained for seven of the books.
 It seems that common words such as short articles are generated very frequently.
-This group of results is considered as a baseline for the other problems where more elaborated simulation algorithms are used.
+These results are considered as the baseline for the simulation algorithms implemented in the following problems.
 
 \begin{table}[htb]
 \caption{Relative word yield of the straightforward monkey problem.\label{tab:problem1a}}
@@ -321,13 +321,13 @@ Try running this simulation program against other authors listed.''
 \end{quote}
 \vspace{0.75em}
 
-The three books written by the Bronte sisters listed in Table~\ref{tab:data} (books numbered 3, 4, and 5) are used together as the writing sample to build second and third order frequency tables.
-The following Python code runs the simulation and computes the relative word yield for every book in every case.
+The three books written by the Bronte sisters listed in Table~\ref{tab:data} (books 3, 4, and 5) are used together as the writing sample to build second and third order frequency tables.
+The following Python code runs the simulation and computes the relative word yield for the books in every case.
 
 \codefile{problem1c.py}
 
 Table~\ref{tab:problem1c} summarizes the results with the second and third order Bronte monkey problem.
-In this case the results are considerably better that previous results on every book, which illustrates the power of the higher-order statistics.
+In this case the results are considerably better than previous results on every book, which illustrates the power of the higher-order statistics.
 The results with the third-order statistics are also consistently better than with the second-order statistics.
 The highest relative word yield is obtained for one of the Bronte books with 45.97\%.
 
@@ -366,7 +366,7 @@ For example round off the matrix elements to the smallest number of places
 \end{quote}
 \vspace{0.75em}
 
-A book of medium size (book number 4) was selected among the books listed in Table~\ref{tab:data} to investigate the effect of resolution on the relative word yield.
+A book of medium size (book 4) was selected among the books listed in Table~\ref{tab:data} to investigate the effect of resolution on the relative word yield.
 The study is performed for 11~equally spaced values of the reduction rate $\alpha$ in $[0,1]$ -- the argument of \codeinline{reduce\_freq\_tab\_resolution}.
 The effect is analyzed on first, second, and third order frequency tables.
 The following Python code collects the necessary data.
@@ -395,12 +395,12 @@ Because of the greater number of entries on the third-order frequency tables, th
 \end{quote}
 \vspace{0.75em}
 
-The same book number 4 used in the previous problem is used in this problem.
+The same book number 4 used in the previous problem is used here.
 The following Python code computes second and third order frequency tables from the book and save them to a file in JSON format.
 
 \codefile{problem1e.py}
 
-The output is processed using R to generate a graphical representation of the normalized frequency tables similar to the ones showed in the handout~\cite{Bennett1976}.
+The output is processed using R to generate a graphical representation of the normalized frequency tables similar to the ones showed in the handout.
 Fig.~\ref{fig:agnes_grey_2nd_order} shows the second-order correlation matrix. 
 Note the high frequency of the entires \codeinline{th}, \codeinline{he}, and \codeinline{e } corresponding to the article \codeinline{the}.
 Fig.~\ref{fig:agnes_grey_3rd_order} shows three selected entries of the third-order correlation matrix.
@@ -437,7 +437,7 @@ The following Python code computes the digraph and trigraph paths from the books
 \codefile{problem1f.py}
 
 Table~\ref{tab:problem1f} shows the digraphs and trigraph paths.
-The most probable digraph in W. Irving's ``Legend of Sleepy Hollow'' (book number 14) is \codeinline{the andis,@wofry."bulmpk!-cq} and the trigraph path is \codeinline{the somplack,@}.
+The most probable digraph in W. Irving's ``Legend of Sleepy Hollow'' (book 14) is \codeinline{the andis,@wofry."bulmpk!-cq} and the trigraph path is \codeinline{the somplack,@}.
 The most probable digraph path in Poe's ``The Gold Bug'' given in the handout is \codeinline{the andisouryplf'bj}.
 All these paths begin with the word \codeinline{the} followed by a space, which is also true for the rest of the paths.
 All the digraph paths continue with \codeinline{and} after the space, while some trigraph paths include words such as \codeinline{said} and \codeinline{was}.
@@ -497,12 +497,12 @@ The following Python code implements this experimental procedure.
 \codefile{problem1g.py}
 
 The results of the experiment are summarized in Table~\ref{tab:problem1g}.
-It is very interesting to see that using only the 10~most frequent \mbox{$n$-grams} is enough to predict more than 50\% of the authors correctly.
+It is interesting to see that using only the 10~most frequent \mbox{$n$-grams} is enough to predict more than 50\% of the authors correctly.
 The success rate increases with larger values of~$L$, and for $L=500$ a perfect success rate is achieved.
 
 Although outstanding prediction results were obtained with $L=500$, I believe this approach is not likely to solve the problem definitively.
 Some situations can be problematic for a prediction technique based solely on the most frequent \mbox{$n$-grams}.
-For example, authors could change their writting style during periods of their lives and this could affect the prediction, particularly if limited writing samples are available.
+For example, authors could change their writing style during periods of their lives and this could affect the prediction, particularly if limited writing samples are available.
 
 
 \begin{table}[htb]
@@ -542,7 +542,7 @@ Is there any relationship to the styles of the three Bronte sisters' works?''
 \end{quote}
 \vspace{0.75em}
 
-In addition to author identification, the CNG profiles could be used to classify the stories according to their genre or literary style.
+In addition to author identification, the CNG profiles could be used to classify the stories according to their genre.
 If a book collection with genre labels were available, a straightforward solution would be to use a supervised learning approach by summarizing the features of each genre using a CNG profile.
 However, since the data provided for the assignment does not contain genre labels, an unsupervised approach based on clustering is presented.
 Specifically, the books are grouped using a hierarchical clustering method according to the CNG dissimilarity.
@@ -558,7 +558,7 @@ The data was clustered using an agglomerative method with complete-linkage, whic
 A dendrogram of the result of the analysis is presented in Fig.~\ref{fig:problem1h}.
 
 A cut at a given height of the tree corresponds to a clustering of the books.
-Once the books are grouped, the genre corresponding to each cluster could be obtained by classifying a representative member or thorugh a voting scheme.
+Once the books are grouped, the genre corresponding to each cluster could be obtained by classifying a representative member or through a voting scheme.
 For example, one of the groups obtained after a cut of the tree at a CNG dissimilarity threshold of~900 contains the following books:
 ``War of the Worlds'', ``The Time Machine'', ``Tarzan of the Apes'', ``The Warlord of Mars'', ``The People that Time Forgot'', and ``The Land that Time Forgot''.
 These books could be classified as fantasy novels.
@@ -566,7 +566,6 @@ These books could be classified as fantasy novels.
 The dendrogram also illustrates that works written by the same author are similar.
 For example, the books ``Metamorphosis'' and ``The Trial'' by F. Kafka clearly form a cluster by themselves.
 Moreover, it is evident that the works ``Wuthering Heights'', ``Agnes Grey'', and ``Jane Eyre'' written by the Bronte sisters are similar in style.
-The three books were clustered together early in the agglomerative process.
 
 The proposed classification scheme can help with author attribution.
 When the algorithm is confronted with a book whose author must be identified, the set of candidate authors can be reduced by considering only authors who have written books of the same genre.
@@ -574,7 +573,7 @@ This idea could help to reduce the number of false positives.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[height=\textwidth,angle=270]{problem1h}
+\includegraphics[height=0.97\textwidth,angle=270]{problem1h}
 \caption{Hierarchical cluster analysis of the data made available for the assignment
 according to the CNG dissimilarity.}
 \label{fig:problem1h}
@@ -595,7 +594,7 @@ The following Python code computes the CNG dissimilarity between every pair of a
 
 The normalized CNG dissimilarity matrix of the authors is presented in Table~\ref{tab:problem1i}.
 The minimum entries on each row are highlighted in bold numbers -- i.e. the most similar counterparts for each author.
-Overall, the most similar authors are Sir A. C. Doyle and C. Dickens with a normalized CNG dissimilarity of 0.34, and the relationship is symmetric.
+Overall, the most similar authors are Sir A. C. Doyle and C. Dickens with a normalized CNG dissimilarity of 0.34, and this relationship is symmetric.
 Consequently with the results obtained in Problem~1h, it is also noticeable that the Bronte sisters are very similar to each other.
 For each Bronte sister, the most similar author is always another sister.
 
