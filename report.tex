@@ -543,9 +543,35 @@ Is there any relationship to the styles of the three Bronte sisters' works?''
 \end{quote}
 \vspace{0.75em}
 
+In addition to author identification, the CNG profiles could be used to classify the stories according to their genre or literary style.
+If a book collection with genre labels were available, a straightforward solution would be to use a supervised learning approach by summarizing the features of each genre using a CNG profile.
+However, since the data provided for the assignment does not contain genre labels, an unsupervised approach based on clustering is presented.
+Specifically, the books are grouped using a hierarchical clustering method according to the CNG dissimilarity.
+
+A CNG profile of the $L=500$ most frequent \mbox{$n$-grams} based on a third-order frequency table was built for every book on Table~\ref{tab:data}.
+Then, a CNG dissimilarity matrix was computed for every pair of books.
+The following Python code implements these two steps and prints the matrix.
+
 \codefile{problem1h.py}
 
-A dendrogram of the results is presented in Fig.~\ref{fig:problem1h}.
+The cluster analysis was performed in R using the \codeinline{hclust} function.
+The data was clustered using an agglomerative method with complete-linkage, which defines the distance between clusters as the dissimilarity between the elements that are farthest away from each other.
+A dendrogram of the result of the analysis is presented in Fig.~\ref{fig:problem1h}.
+
+A cut at a given height of the tree corresponds to a clustering of the books.
+Once the books are grouped, the genre corresponding to each cluster could be obtained by classifying a representative member or thorugh a voting scheme.
+For example, one of the groups obtained after a cut of the tree at a CNG dissimilarity threshold of~900 contains the following books:
+``War of the Worlds'', ``The Time Machine'', ``Tarzan of the Apes'', ``The Warlord of Mars'', ``The People that Time Forgot'', and ``The Land that Time Forgot''.
+These books could be classified as fantasy novels.
+
+The dendrogram also illustrates that works written by the same author are similar.
+For example, the books ``Metamorphosis'' and ``The Trial'' by F. Kafka clearly form a cluster by themselves.
+Moreover, it is evident that the works ``Wuthering Heights'', ``Agnes Grey'', and ``Jane Eyre'' written by the Bronte sisters are similar in style.
+The three books were clustered together early in the agglomerative process.
+
+The proposed classification scheme can help with author attribution.
+When the algorithm is confronted with a book whose author must be identified, the set of candidate authors can be reduced by considering only authors who have written books of the same genre.
+This idea could help to reduce the number of false positives.
 
 \begin{figure*}[t]
 \centering
@@ -571,7 +597,7 @@ The following Python code computes the CNG dissimilarity between every pair of a
 The normalized CNG dissimilarity matrix of the authors is presented in Table~\ref{tab:problem1i}.
 The minimum entries on each row are highlighted in bold numbers -- i.e. the most similar counterparts for each author.
 Overall, the most similar authors are Sir A. C. Doyle and C. Dickens with a normalized CNG dissimilarity of 0.34, and the relationship is symmetric.
-It is also noticeable that the Bronte sisters are very similar to each other according to the CNG dissimilarity measure.
+Consequently with the results obtained in Problem~1h, it is also noticeable that the Bronte sisters are very similar to each other.
 For each Bronte sister, the most similar author is always another sister.
 
 \begin{table*}[htb]
@@ -634,14 +660,14 @@ R. Kipling & 0.64 & 0.79 & 0.77 & 0.73 & 0.67 & 0.60 & 0.87 & 0.83 & 0.84 & 0.65
 
 \section{Conclusions\label{sec:conclusions}}
 
-% The Python source code of the programs implemented for the assignment is available at the git repository \codeinline{https://github.com/ygf/monkeys-typing}.
+% The Python source code of the programs implemented for the assignment is publicly available at the git repository \codeinline{https://github.com/ygf/monkeys-typing}.
 % The repository also contains the \LaTeX~code for this document, and the R~scripts and data files to produce the accompanying figures.
 
 
 \bibliographystyle{IEEEtran}
 \bibliography{references,IEEEabrv}
 
-\appendix[Source Code of the `monkeys.py' Module]
+\appendix[Source Code of the \codeinline{monkeys.py} Module]
 
 \codefile{monkeys.py}
 
