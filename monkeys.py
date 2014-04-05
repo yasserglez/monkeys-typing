@@ -189,7 +189,7 @@ def cng_profile(freq_tab, profile_len):
 # Common N-Grams (CNG) profile dissimilarity.
 def cng_dissimilarity(profile1, profile2):
     dissimilarity = 0
-    for ngram in chain(profile1.iterkeys(), profile2.iterkeys()):
+    for ngram in set(profile1) | set(profile2):
         ngram_freq1 = profile1.get(ngram, 0)
         ngram_freq2 = profile2.get(ngram, 0)
         dissimilarity += (2 * (ngram_freq1 - ngram_freq2) / 
