@@ -16,6 +16,13 @@
   \end{framed}
 }
 
+\newcommand\blfootnote[1]{
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}
+  \addtocounter{footnote}{-1}
+  \endgroup
+}
+
 \begin{document}
 
 \title{CSE6339 -- 2nd Assignment\vspace{-14pt}}
@@ -475,7 +482,9 @@ trigraph (starting with \codeinline{th}) paths.\label{tab:problem1f}}
 \end{table}
 
 
-\subsection{Problem 1g}
+\subsection{Problem 1g~$^1$}
+
+\vspace{-1em}\blfootnote{$^1$\hspace{1pt}The initial implementation of \codeinline{cng\_dissimilarity} was incorrect (common \mbox{$n$-grams} were counted twice), so the numerical results presented in this section are not valid.}
 
 \begin{quote}
 ``Design and implement an experiment using data from the books shown in Table~\ref{tab:data} that might be used to perform author attribution. 
@@ -531,7 +540,9 @@ Success Rate & 57.14\% & 85.71\% & 100.00\%\\
 \end{table} 
     
 
-\subsection{Problem 1h}
+\subsection{Problem 1h~$^2$}
+
+\vspace{-1em}\blfootnote{$^2$\hspace{1pt}The initial implementation of \codeinline{cng\_dissimilarity} was incorrect (common \mbox{$n$-grams} were counted twice), so the numerical results presented in this section are not valid.}
 
 \begin{quote}
 ``Can you develop a metric based on what you have done so far to classify the stories, e.g., as mystery, romance, action/adventure, etc.? 
@@ -579,7 +590,11 @@ according to the CNG dissimilarity.}
 \label{fig:problem1h}
 \end{figure*}
 
-\subsection{Problem 1i}
+\newpage
+
+\subsection{Problem 1i~$^3$}
+
+\vspace{-1em}\blfootnote{$^3$\hspace{1pt}The initial implementation of \codeinline{cng\_dissimilarity} was incorrect (common \mbox{$n$-grams} were counted twice), so the numerical results presented in this section are not valid.}
 
 \begin{quote}
 ``Develop a profile for each of the different authors in Table~\ref{tab:data} and provide a metric and argument that compares and contrasts authors in order to speculate which two authors are the most `similar' in style.''
