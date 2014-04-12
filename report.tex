@@ -84,7 +84,7 @@ These indexes identify the entries of the frequency tables presented next in thi
 
 \subsection{N-Gram Frequency Tables}
 
-Solving the problems in the assignment requires counting the occurrences of all the character \mbox{\mbox{$n$-gram}s} appearing in a writing sample.
+Solving the problems in the assignment requires counting the occurrences of all the character \mbox{$n$-grams} appearing in a writing sample.
 This section discusses how this information can be represented and the algorithms that work with this representation.
 
 \vspace{0.5em}
@@ -100,9 +100,9 @@ This data structure is equivalent to a multidimensional $n \times m$ array, sinc
 This array-based representation guarantees O(1) read/write access to any particular entry in the table.
 Based on this structure, the function \codeinline{compute\_freq\_tab} builds a frequency table of the specified order from a writing sample given as a group of plain-text files.
 
-One drawback of the array-based representation is that the table may contain many zero entries corresponding to \mbox{\mbox{$n$-gram}s} that never appeared on the writing sample.
-A more memory-efficient implementation could have been based on a hash table (i.e. a Python dictionary) that stores only the \mbox{\mbox{$n$-gram}s} with nonzero frequencies.
-Nevertheless, since only a maximum of third-order \mbox{\mbox{$n$-gram}s} are considered in the assignment, the explicit array-based representation was preferred.
+One drawback of the array-based representation is that the table may contain many zero entries corresponding to \mbox{$n$-grams} that never appeared on the writing sample.
+A more memory-efficient implementation could have been based on a hash table (i.e. a Python dictionary) that stores only the \mbox{$n$-grams} with nonzero frequencies.
+Nevertheless, since only a maximum of third-order \mbox{$n$-grams} are considered in the assignment, the explicit array-based representation was preferred.
 The more compact representation is however used to save the frequency tables to files on disk.
 The function \codeinline{write\_freq\_tab} saves a mapping of the \mbox{$n$-gram} with nonzero frequencies as a JSON dictionary.
 Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table from a file in JSON format.
@@ -112,7 +112,7 @@ Consequently, the function \codeinline{read\_freq\_tab} reads a frequency table 
 \subsubsection{Most Probable Path}
 
 Problem~1f requires using the procedure to compute the most probable path in a second-order frequency table described in the handout~\cite{Bennett1976}.
-The function \codeinline{most\_probable\_freq\_tab\_path} implements a simple generalization of this algorithm for \mbox{\mbox{$n$-gram}s} with $n\geq2$.
+The function \codeinline{most\_probable\_freq\_tab\_path} implements a simple generalization of this algorithm for \mbox{$n$-grams} with $n\geq2$.
 Given a frequency table of order $n$ and a prefix of $n-1$~characters, the path is built incrementally by adding the character that completes the \mbox{$n$-gram} with the highest frequency at the end of the path.
 The algorithm stops when all characters are already included in the path or an \mbox{$n$-gram} prefix with zero occurrences is found.
 
@@ -158,9 +158,9 @@ In order to get a reasonable estimation of the performance measure, the simulate
 
 The solutions to Problems 1g, 1h, and 1i use a technique called Common N-Gram (CNG) profiles~\cite{Keselj2003} to discover similarities between authors, and to perform author attribution and genre classification.
 The function \codeinline{cng\_profile} builds a CNG profile of the specified length $L$ from a frequency table.
-A Python dictionary is used to represent the profile, as a mapping of the $L$ most-frequent \mbox{\mbox{$n$-gram}s} to their normalized frequencies.
+A Python dictionary is used to represent the profile, as a mapping of the $L$ most-frequent \mbox{$n$-grams} to their normalized frequencies.
 Also, the function \codeinline{cng\_dissimilarity} computes a positive dissimilarity measure between two profiles.
-The function returns zero for texts with identical $L$ most-frequent \mbox{\mbox{$n$-gram}s}.
+The function returns zero for texts with identical $L$ most-frequent \mbox{$n$-grams}.
 For more information about the CNG profiles, please refer to the citation above.
 
 
